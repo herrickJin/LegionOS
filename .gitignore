@@ -20,6 +20,8 @@ node_modules/
 .npm/
 .pnpm-store/
 
+.obsidian/
+
 # Python
 __pycache__/
 *.py[cod]
