@@ -1,0 +1,72 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editor / IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Node
+node_modules/
+.npm/
+.pnpm-store/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+venv/
+.venv/
+.env
+env/
+
+# Build artifacts
+*.log
+*.tmp
+*.bak
+*.cache
+
+# Dependencies
+vendor/
+
+# AI / LLM local directories
+.workbuddy/
+.claude/
+.cursor/
+.aider*
+.continue/
+.codeium/
+.tabby/
+.copilot/
+.windsurf/
+.void/
+.rivet/
+.jan/
+.lmstudio/
+.ollama/
+.ai/
+ai-generated/
+
+# AI model caches
+.huggingface/
+.models/
+checkpoints/
+
+# AI tool outputs
+.aider*
+.claude/
+.mcp/
