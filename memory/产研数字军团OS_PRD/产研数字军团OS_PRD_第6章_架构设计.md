@@ -836,7 +836,7 @@ legion-os/
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐        │
-│  │  core-svc   │  │  asset-svc  │  │  agent-svc  │        │
+│  │  pdm-svc   │  │  asset-svc  │  │  agent-svc  │        │
 │  │  (核心聚合)  │  │ (资产+知识)  │  │ (数字员工)   │        │
 │  │             │  │             │  │  MVP简化     │        │
 │  │ opp+prj+tsk │  │ ast+knw+evo │  │ 远程API调用  │        │
@@ -858,7 +858,7 @@ legion-os/
 **MVP阶段服务说明：**
 | 服务 | 包含域 | 说明 |
 |------|--------|------|
-| core-svc | 经营决策+项目管理+项目实施+产研流程 | 高频联动，共享core_db本地事务 |
+| pdm-svc | 经营决策+项目管理+项目实施+产研流程 | 高频联动，共享core_db本地事务 |
 | asset-svc | 技术资产+知识经验+自我进化+价值评估 | 辅助域聚合，降低运维复杂度 |
 | agent-svc | 数字员工 | MVP简化：远程LLM API调用，无Body容器化 |
 | portal-svc | 个人域(BFF) | 只读聚合，数据来自各服务 |
@@ -867,7 +867,7 @@ legion-os/
 **成长期（Phase 2-3）：拆分为8个服务**
 
 按业务复杂度拆分：
-- core-svc → opp-svc + prj-svc + tsk-svc + wf-svc
+- pdm-svc → opp-svc + prj-svc + tsk-svc + wf-svc
 - asset-svc → ast-svc + knw-svc + evo-svc + val-svc
 - agent-svc 保持独立，引入Body容器化
 - 新增 inf-svc（基础设施域）

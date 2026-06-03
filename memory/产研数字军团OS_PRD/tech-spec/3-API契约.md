@@ -46,7 +46,7 @@
 
 ---
 
-## 2. core-svc API
+## 2. pdm-svc API
 
 ### 2.1 经营决策域（opp）
 
