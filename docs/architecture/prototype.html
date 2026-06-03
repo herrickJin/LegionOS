@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>产研数字军团OS - 应用原型</title>
+<style>
+  :root {
+    --nav-height: 52px;
+    --sidebar-width: 232px;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-xs: 6px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow: 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+    --text-primary: #1a1a2e;
+    --text-secondary: #5c5c7a;
+    --text-muted: #9898ad;
+    --bg: #f7f7fb;
+    --surface: #ffffff;
+    --border: #eaeaf0;
+    --border-light: #f2f2f7;
+    --blue: #4361ee;
+    --blue-bg: #eef0ff;
+    --blue-soft: #f6f7ff;
+    --indigo: #6366f1;
+    --purple: #8b5cf6;
+    --purple-bg: #f5f3ff;
+    --teal: #14b8a6;
+    --teal-bg: #f0fdfa;
+    --rose: #f43f5e;
+    --rose-bg: #fff1f2;
+    --amber: #f59e0b;
+    --amber-bg: #fffbeb;
+    --green: #22c55e;
+    --green-bg: #f0fdf4;
+    --sky: #0ea5e9;
+    --sky-bg: #f0f9ff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    font-size: 14px; color: var(--text-primary);
+    background: var(--bg); overflow: hidden; height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== TOP BAR ===== */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: var(--nav-height);
+    background: var(--surface);
+    display: flex; align-items: center;
+    padding: 0 24px;
+    z-index: 100;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .topbar-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 600; font-size: 15px; min-width: 200px;
+    color: var(--text-primary);
+  }
+  .topbar-logo .logo-icon {
+    width: 32px; height: 32px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: #fff;
+  }
+  .topbar-center { flex: 1; display: flex; justify-content: center; }
+  .role-pills {
+    display: flex; gap: 4px; padding: 4px;
+    background: var(--bg); border-radius: 10px;
+  }
+  .role-pill {
+    padding: 6px 18px; border-radius: 8px;
+    font-size: 13px; font-weight: 500;
+    color: var(--text-secondary); cursor: pointer;
+    transition: all 0.2s; border: none; background: transparent;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .role-pill:hover { color: var(--text-primary); }
+  .role-pill.active {
+    background: var(--surface); color: var(--text-primary);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .role-pill .rp-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .topbar-right {
+    display: flex; align-items: center; gap: 12px; min-width: 200px;
+    justify-content: flex-end;
+  }
+  .topbar-search {
+    width: 200px; height: 34px; border-radius: 8px;
+    background: var(--bg); border: 1px solid transparent;
+    display: flex; align-items: center; padding: 0 10px; gap: 6px;
+    transition: all 0.2s;
+  }
+  .topbar-search:hover { border-color: var(--border); }
+  .topbar-search svg { width: 15px; height: 15px; fill: var(--text-muted); flex-shrink: 0; }
+  .topbar-search input {
+    border: none; background: transparent; font-size: 13px;
+    outline: none; color: var(--text-primary); width: 100%;
+  }
+  .topbar-search input::placeholder { color: var(--text-muted); }
+  .project-chip {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 12px 5px 8px; border-radius: 8px;
+    background: var(--blue-soft); border: 1px solid var(--blue-bg);
+    font-size: 13px; font-weight: 500; color: var(--blue);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .project-chip:hover { border-color: var(--blue); }
+  .project-chip .pc-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
+  .project-chip .pc-arrow { font-size: 10px; opacity: 0.6; }
+  .notif-btn {
+    width: 34px; height: 34px; border-radius: 8px;
+    background: var(--bg); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; transition: all 0.15s; border: none;
+  }
+  .notif-btn:hover { background: var(--border); }
+  .notif-btn svg { width: 17px; height: 17px; fill: var(--text-secondary); }
+  .notif-badge {
+    position: absolute; top: -2px; right: -2px;
+    min-width: 16px; height: 16px; border-radius: 8px;
+    background: var(--rose); color: #fff;
+    font-size: 10px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 4px;
+  }
+  .user-avatar {
+    width: 34px; height: 34px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--teal), var(--sky));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; color: #fff;
+    cursor: pointer;
+  }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    position: fixed; top: var(--nav-height); left: 0; bottom: 0;
+    width: var(--sidebar-width);
+    background: var(--surface);
+    padding: 16px 12px;
+    overflow-y: auto; z-index: 80;
+    border-right: 1px solid var(--border-light);
+    display: flex; flex-direction: column;
+  }
+  .sidebar-nav { flex: 1; overflow-y: auto; }
+  .sidebar::-webkit-scrollbar { width: 3px; }
+  .sidebar::-webkit-scrollbar-thumb { background: transparent; border-radius: 3px; }
+  .sidebar:hover::-webkit-scrollbar-thumb { background: var(--border); }
+  .sidebar-section { margin-bottom: 8px; }
+  .sidebar-label {
+    padding: 8px 10px 6px;
+    font-size: 11px; font-weight: 600;
+    color: var(--text-muted); letter-spacing: 0.3px;
+  }
+  .sidebar-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; cursor: pointer;
+    color: var(--text-secondary); font-size: 13px; font-weight: 450;
+    border-radius: var(--radius-sm); transition: all 0.12s;
+    margin-bottom: 2px;
+  }
+  .sidebar-item:hover { background: var(--bg); color: var(--text-primary); }
+  .sidebar-item.active {
+    background: var(--blue-soft); color: var(--blue); font-weight: 500;
+  }
+  .sidebar-item .si-icon {
+    width: 18px; height: 18px; display: flex;
+    align-items: center; justify-content: center; flex-shrink: 0;
+    opacity: 0.65;
+  }
+  .sidebar-item.active .si-icon { opacity: 1; }
+  .sidebar-item .si-icon svg { width: 17px; height: 17px; fill: currentColor; }
+  .sidebar-item .si-badge {
+    margin-left: auto; padding: 1px 7px; border-radius: 6px;
+    font-size: 11px; font-weight: 600; background: var(--rose-bg); color: var(--rose);
+  }
+
+  /* ===== MAIN ===== */
+  .main {
+    margin-left: var(--sidebar-width);
+    margin-top: var(--nav-height);
+    height: calc(100vh - var(--nav-height));
+    overflow-y: auto;
+    background: var(--bg);
+  }
+  .main::-webkit-scrollbar { width: 5px; }
+  .main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 5px; }
+  .page-inner { padding: 24px 32px; max-width: 1200px; }
+
+  /* ===== BREADCRUMB ===== */
+  .breadcrumb {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--text-muted); margin-bottom: 20px;
+  }
+  .breadcrumb a { color: var(--text-secondary); text-decoration: none; cursor: pointer; }
+  .breadcrumb a:hover { color: var(--blue); }
+  .breadcrumb .sep { color: var(--border); }
+  .breadcrumb .current { color: var(--text-primary); font-weight: 500; }
+
+  /* ===== PAGE HEADER ===== */
+  .page-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .page-title { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
+  .page-subtitle { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+  .page-actions { display: flex; gap: 10px; align-items: center; }
+
+  /* ===== BUTTONS ===== */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px; border-radius: var(--radius-sm);
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    border: none; transition: all 0.15s;
+  }
+  .btn-primary { background: var(--blue); color: #fff; }
+  .btn-primary:hover { background: #3a56d4; }
+  .btn-secondary { background: var(--surface); color: var(--text-primary); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
+  .btn-ghost { background: transparent; color: var(--text-secondary); }
+  .btn-ghost:hover { background: var(--bg); }
+  .btn-sm { padding: 5px 12px; font-size: 12px; border-radius: var(--radius-xs); }
+  .btn-success { background: var(--green); color: #fff; }
+  .btn-success:hover { opacity: 0.9; }
+  .btn-danger { background: var(--rose); color: #fff; }
+
+  /* ===== CARD ===== */
+  .card {
+    background: var(--surface); border-radius: var(--radius);
+    border: 1px solid var(--border-light);
+    padding: 20px;
+  }
+
+  /* ===== STAT GRID ===== */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .stat-card {
+    background: var(--surface); border-radius: var(--radius);
+    border: 1px solid var(--border-light); padding: 20px;
+    transition: all 0.2s;
+  }
+  .stat-card:hover { border-color: var(--border); box-shadow: var(--shadow-sm); }
+  .stat-card .sc-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .stat-card .sc-label { font-size: 13px; color: var(--text-secondary); }
+  .stat-card .sc-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .stat-card .sc-icon svg { width: 18px; height: 18px; }
+  .stat-card .sc-value { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+  .stat-card .sc-change { font-size: 12px; margin-top: 6px; display: flex; align-items: center; gap: 3px; }
+  .stat-card .sc-change.up { color: var(--green); }
+  .stat-card .sc-change.down { color: var(--rose); }
+
+  /* ===== CHART PLACEHOLDER ===== */
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .chart-card {
+    background: var(--surface); border-radius: var(--radius);
+    border: 1px solid var(--border-light); padding: 24px;
+    min-height: 220px; display: flex; flex-direction: column;
+  }
+  .chart-card .cc-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .chart-card .cc-title { font-size: 14px; font-weight: 600; }
+  .chart-card .cc-body { flex: 1; display: flex; align-items: center; justify-content: center; }
+  .chart-card .cc-placeholder {
+    text-align: center; padding: 24px;
+    border: 2px dashed var(--border); border-radius: var(--radius-sm);
+    width: 100%; color: var(--text-muted);
+  }
+  .chart-card .cc-placeholder svg { width: 28px; height: 28px; fill: var(--border); margin-bottom: 8px; }
+
+  /* ===== FILTER ===== */
+  .filter-bar {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 16px; flex-wrap: wrap;
+  }
+  .filter-chip {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 13px; color: var(--text-secondary);
+    background: var(--surface); border: 1px solid var(--border-light);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .filter-chip:hover { border-color: var(--border); }
+  .filter-chip.active { background: var(--blue-soft); border-color: var(--blue-bg); color: var(--blue); }
+  .filter-chip svg { width: 14px; height: 14px; fill: currentColor; }
+
+  /* ===== TABLE ===== */
+  .table-card {
+    background: var(--surface); border-radius: var(--radius);
+    border: 1px solid var(--border-light); overflow: hidden;
+  }
+  .table-card table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .table-card thead th {
+    padding: 12px 16px; text-align: left;
+    font-size: 12px; font-weight: 600; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.3px;
+    background: var(--bg); border-bottom: 1px solid var(--border-light);
+  }
+  .table-card td {
+    padding: 14px 16px; border-bottom: 1px solid var(--border-light);
+    color: var(--text-secondary);
+  }
+  .table-card tr:last-child td { border-bottom: none; }
+  .table-card tr:hover td { background: var(--bg); }
+  .table-card .cell-title { font-weight: 500; color: var(--text-primary); }
+
+  /* ===== TAGS ===== */
+  .tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 10px; border-radius: 6px; font-size: 12px; font-weight: 500;
+  }
+  .tag .tag-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .tag-blue { background: var(--blue-bg); color: var(--blue); }
+  .tag-green { background: var(--green-bg); color: var(--green); }
+  .tag-amber { background: var(--amber-bg); color: var(--amber); }
+  .tag-rose { background: var(--rose-bg); color: var(--rose); }
+  .tag-purple { background: var(--purple-bg); color: var(--purple); }
+  .tag-teal { background: var(--teal-bg); color: var(--teal); }
+  .tag-sky { background: var(--sky-bg); color: var(--sky); }
+  .priority { display: inline-block; padding: 2px 8px; border-radius: 5px; font-size: 11px; font-weight: 600; }
+  .priority.p0 { background: var(--rose-bg); color: var(--rose); }
+  .priority.p1 { background: var(--amber-bg); color: var(--amber); }
+  .priority.p2 { background: var(--sky-bg); color: var(--sky); }
+
+  /* ===== TABS ===== */
+  .tabs {
+    display: flex; gap: 2px; border-bottom: 1px solid var(--border-light);
+    margin-bottom: 20px;
+  }
+  .tab {
+    padding: 10px 18px; font-size: 13px; color: var(--text-muted);
+    cursor: pointer; border-bottom: 2px solid transparent;
+    margin-bottom: -1px; transition: all 0.15s; font-weight: 500;
+  }
+  .tab:hover { color: var(--text-secondary); }
+  .tab.active { color: var(--text-primary); border-bottom-color: var(--blue); }
+  .tab .tab-count {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 18px; height: 18px; border-radius: 9px;
+    font-size: 11px; font-weight: 600; margin-left: 6px; padding: 0 5px;
+  }
+
+  /* ===== PROJECT CARDS ===== */
+  .project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .project-card {
+    background: var(--surface); border-radius: var(--radius);
+    border: 1px solid var(--border-light); padding: 22px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .project-card:hover { border-color: var(--blue); box-shadow: var(--shadow); transform: translateY(-2px); }
+  .project-card .pc-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+  .project-card .pc-name { font-size: 15px; font-weight: 600; }
+  .project-card .pc-meta { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+  .project-card .pc-avatars { display: flex; margin-left: auto; }
+  .project-card .pc-avatar {
+    width: 24px; height: 24px; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 600; color: #fff; margin-left: -6px;
+    border: 2px solid var(--surface);
+  }
+  .progress-track { height: 5px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
+  .project-card .pc-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; }
+  .project-card .pc-pct { font-size: 12px; font-weight: 600; }
+  .project-card .pc-tasks { font-size: 12px; color: var(--text-muted); }
+
+  /* ===== KANBAN ===== */
+  .kanban { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .kanban-col { min-height: 420px; }
+  .kanban-col-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 4px; margin-bottom: 10px;
+    font-size: 13px; font-weight: 600;
+  }
+  .kanban-col-header .kch-count {
+    width: 22px; height: 22px; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; background: var(--bg); color: var(--text-muted);
+  }
+  .kanban-card {
+    background: var(--surface); border-radius: var(--radius-sm);
+    padding: 14px; margin-bottom: 10px; cursor: pointer;
+    border: 1px solid var(--border-light);
+    transition: all 0.12s;
+  }
+  .kanban-card:hover { border-color: var(--blue); box-shadow: var(--shadow-sm); }
+  .kanban-card .kc-title { font-size: 13px; font-weight: 500; margin-bottom: 10px; line-height: 1.4; }
+  .kanban-card .kc-bottom { display: flex; align-items: center; justify-content: space-between; }
+  .kanban-card .kc-avatar {
+    width: 22px; height: 22px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 600; color: #fff;
+  }
+
+  /* ===== SPLIT VIEW ===== */
+  .split-view { display: grid; grid-template-columns: 1fr 360px; gap: 20px; }
+  .detail-panel {
+    background: var(--surface); border-radius: var(--radius);
+    border: 1px solid var(--border-light); padding: 20px;
+    position: sticky; top: 0;
+  }
+  .detail-panel .dp-section { margin-bottom: 18px; }
+  .detail-panel .dp-label {
+    font-size: 11px; font-weight: 600; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.3px;
+    margin-bottom: 10px;
+  }
+  .detail-panel .dp-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; }
+  .detail-panel .dp-row .dp-key { color: var(--text-muted); }
+  .claim-vs-evidence { border-radius: var(--radius-sm); overflow: hidden; }
+  .cve-claim { background: var(--amber-bg); padding: 12px 14px; display: flex; gap: 10px; }
+  .cve-evidence { background: var(--green-bg); padding: 12px 14px; display: flex; gap: 10px; }
+  .cve-icon { width: 20px; height: 20px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+  .cve-claim .cve-icon { background: var(--amber); color: #fff; }
+  .cve-evidence .cve-icon { background: var(--green); color: #fff; }
+  .cve-text { font-size: 13px; line-height: 1.5; }
+  .cve-label { font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-bottom: 2px; }
+  .checklist-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0; font-size: 13px;
+  }
+  .check-icon { width: 18px; height: 18px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+  .check-icon.done { background: var(--green); color: #fff; }
+  .check-icon.miss { background: var(--rose-bg); color: var(--rose); }
+
+  /* ===== MILESTONE ===== */
+  .milestone-track { display: flex; align-items: center; gap: 0; padding: 8px 0; }
+  .ms-node { flex: 1; text-align: center; position: relative; }
+  .ms-dot {
+    width: 24px; height: 24px; border-radius: 50%;
+    margin: 0 auto 8px; display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #fff; position: relative; z-index: 1;
+  }
+  .ms-dot.done { background: var(--green); }
+  .ms-dot.active { background: var(--blue); box-shadow: 0 0 0 4px var(--blue-bg); }
+  .ms-dot.pending { background: var(--border); color: var(--text-muted); }
+  .ms-connector { position: absolute; top: 20px; left: calc(50% + 12px); right: calc(-50% + 12px); height: 2px; }
+  .ms-connector.done { background: var(--green); }
+  .ms-connector.pending { background: var(--border); }
+  .ms-label { font-size: 12px; font-weight: 600; }
+  .ms-label.muted { color: var(--text-muted); }
+  .ms-status { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ===== SSE PREVIEW ===== */
+  .sse-panel {
+    background: #1e1e2e; border-radius: var(--radius);
+    padding: 24px; color: #cdd6f4; font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+    font-size: 13px; line-height: 2; overflow: hidden;
+    border: 1px solid #313244;
+  }
+  .sse-panel .cursor-blink {
+    display: inline-block; width: 2px; height: 15px;
+    background: var(--blue); animation: blink 1s step-end infinite;
+    vertical-align: middle; margin-left: 2px;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .sse-label { color: #a6e3a1; font-weight: 500; }
+  .sse-path { color: #f9e2af; }
+  .sse-num { color: #fab387; font-weight: 600; }
+
+  /* ===== WORKSPACE ===== */
+  .task-group { margin-bottom: 24px; }
+  .tg-header {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 14px; font-weight: 600; margin-bottom: 12px;
+  }
+  .tg-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 24px; height: 24px; border-radius: 8px;
+    font-size: 12px; font-weight: 600; padding: 0 6px;
+  }
+  .tg-icon { font-size: 16px; }
+  .ws-card {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 18px; background: var(--surface);
+    border-radius: var(--radius-sm); margin-bottom: 8px;
+    border: 1px solid var(--border-light);
+    cursor: pointer; transition: all 0.12s;
+  }
+  .ws-card:hover { border-color: var(--blue); box-shadow: var(--shadow-sm); }
+  .ws-card .ws-bar { width: 3px; height: 36px; border-radius: 2px; flex-shrink: 0; }
+  .ws-card .ws-title { flex: 1; font-size: 13px; font-weight: 500; }
+  .ws-card .ws-project { font-size: 12px; color: var(--text-muted); }
+
+  /* ===== TWO-COL ===== */
+  .two-col { display: grid; grid-template-columns: 180px 1fr; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border-light); }
+  .left-nav { background: var(--bg); padding: 12px 0; }
+  .left-nav .ln-item {
+    padding: 9px 18px; font-size: 13px; color: var(--text-secondary);
+    cursor: pointer; transition: all 0.12s;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .left-nav .ln-item:hover { color: var(--text-primary); background: var(--surface); }
+  .left-nav .ln-item.active { color: var(--blue); background: var(--blue-soft); font-weight: 500; }
+  .left-nav .ln-item .ln-count { font-size: 12px; color: var(--text-muted); }
+  .right-content { background: var(--surface); padding: 20px; }
+
+  /* ===== MESSAGE ===== */
+  .msg-item {
+    display: flex; gap: 14px; padding: 16px 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .msg-item:last-child { border-bottom: none; }
+  .msg-dot-wrap { padding-top: 6px; }
+  .msg-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .msg-dot.unread { background: var(--blue); }
+  .msg-dot.read { background: var(--border); }
+  .msg-body { flex: 1; }
+  .msg-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+  .msg-route { font-size: 12px; color: var(--text-muted); }
+  .msg-route a { color: var(--blue); cursor: pointer; }
+  .msg-time { font-size: 12px; color: var(--text-muted); white-space: nowrap; flex-shrink: 0; }
+
+  /* ===== EVAL ===== */
+  .eval-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .eval-card {
+    padding: 18px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .eval-card .ec-icon { font-size: 22px; flex-shrink: 0; }
+  .eval-card .ec-value { font-size: 22px; font-weight: 700; }
+  .eval-card .ec-label { font-size: 12px; color: var(--text-muted); }
+  .eval-card .ec-status { margin-left: auto; font-size: 12px; font-weight: 600; }
+  .eval-card .ec-status.pass { color: var(--green); }
+  .eval-card .ec-status.warn { color: var(--amber); }
+
+  /* ===== SETTINGS ===== */
+  .setting-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 0; border-bottom: 1px solid var(--border-light);
+  }
+  .setting-row:last-child { border-bottom: none; }
+  .setting-row .sr-label { font-size: 14px; font-weight: 500; }
+  .setting-row .sr-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  /* ===== SIDEBAR USER FOOTER ===== */
+  .sidebar-user {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-light);
+  }
+  .sidebar-user-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; cursor: pointer;
+    color: var(--text-secondary); font-size: 13px; font-weight: 450;
+    border-radius: var(--radius-sm); transition: all 0.12s;
+  }
+  .sidebar-user-item:hover { background: var(--bg); color: var(--text-primary); }
+  .sidebar-user-profile {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; cursor: pointer;
+    border-radius: var(--radius-sm); transition: all 0.12s;
+  }
+  .sidebar-user-profile:hover { background: var(--bg); }
+  .sidebar-user-avatar {
+    width: 32px; height: 32px; border-radius: 9px;
+    background: linear-gradient(135deg, var(--teal), var(--sky));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; color: #fff; flex-shrink: 0;
+  }
+  .sidebar-user-info { flex: 1; min-width: 0; }
+  .sidebar-user-name { font-size: 13px; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
+  .sidebar-user-role { font-size: 11px; color: var(--text-muted); }
+  .sidebar-user-arrow { font-size: 11px; color: var(--text-muted); }
+  .toggle {
+    width: 40px; height: 22px; border-radius: 11px;
+    background: var(--border); cursor: pointer; position: relative;
+    transition: background 0.2s; border: none;
+  }
+  .toggle.on { background: var(--blue); }
+  .toggle::after {
+    content: ''; position: absolute; top: 2px; left: 2px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: #fff; transition: transform 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .toggle.on::after { transform: translateX(18px); }
+</style>
+</head>
+<body>
+
+<!-- ===== TOPBAR ===== -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <div class="logo-icon">L</div>
+    <span>产研数字军团OS</span>
+  </div>
+  <div class="topbar-center">
+    <div class="role-pills">
+      <button class="role-pill active" data-role="biz" onclick="switchRole('biz')">
+        <span class="rp-dot" style="background:var(--purple)"></span>经营管理者
+      </button>
+      <button class="role-pill" data-role="pm" onclick="switchRole('pm')">
+        <span class="rp-dot" style="background:var(--teal)"></span>研发经理
+      </button>
+      <button class="role-pill" data-role="dev" onclick="switchRole('dev')">
+        <span class="rp-dot" style="background:var(--blue)"></span>AI 工程师
+      </button>
+      <button class="role-pill" data-role="common" onclick="switchRole('common')">
+        <span class="rp-dot" style="background:var(--text-muted)"></span>通用
+      </button>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-search">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <input type="text" placeholder="搜索...">
+    </div>
+    <div class="project-chip">
+      <span class="pc-dot"></span><span>项目A</span><span class="pc-arrow">&#9662;</span>
+    </div>
+    <button class="notif-btn" onclick="navigateTo('message')">
+      <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+      <div class="notif-badge">5</div>
+    </button>
+  </div>
+</div>
+
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar" id="sidebar"></div>
+
+<!-- ===== MAIN ===== -->
+<div class="main" id="main"></div>
+
+<script>
+const roleMenuMap = {
+  biz: [{ section: '经营管理', items: [
+    { id: 'biz-dashboard', label: '经营数据看板' },
+    { id: 'biz-opportunity', label: '商机管理' },
+    { id: 'biz-approval', label: '立项审批', badge: '3' },
+    { id: 'biz-analytics', label: '经营分析' },
+    { id: 'biz-resource', label: '资源管理' },
+  ]}],
+  pm: [{ section: '项目', items: [
+    { id: 'pm-project', label: '项目管理' },
+    { id: 'pm-requirement', label: '需求管理' },
+  ]},{ section: '执行', items: [
+    { id: 'pm-task', label: '任务看板' },
+    { id: 'pm-progress', label: '进度管控' },
+    { id: 'pm-delivery', label: '交付收口' },
+  ]}],
+  dev: [{ section: '我的', items: [
+    { id: 'dev-workspace', label: '个人工作台' },
+    { id: 'dev-task-exec', label: '任务执行' },
+    { id: 'dev-ai-collab', label: '数字员工协同' },
+  ]},{ section: '知识与资产', items: [
+    { id: 'dev-asset', label: '技术资产' },
+    { id: 'dev-knowledge', label: '知识体系' },
+  ]}],
+  common: [{ section: '通用', items: [
+    { id: 'message', label: '消息中心' },
+    { id: 'settings', label: '个人设置' },
+  ]}]
+};
+
+const pages = {
+  'biz-dashboard': `
+<div class="page-inner">
+  <div class="breadcrumb"><a>首页</a><span class="sep">/</span><span class="current">经营数据看板</span></div>
+  <div class="page-header">
+    <div><div class="page-title">经营数据看板</div><div class="page-subtitle">全局经营指标一览，数据每30秒自动刷新</div></div>
+    <div class="page-actions"><div class="filter-chip active">本月</div><div class="filter-chip">本季度</div><div class="filter-chip">本年度</div></div>
+  </div>
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="sc-header"><span class="sc-label">营收总额</span><div class="sc-icon" style="background:var(--blue-bg)"><svg viewBox="0 0 24 24" style="fill:var(--blue)"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div></div>
+      <div class="sc-value">¥1,280<span style="font-size:14px;color:var(--text-muted)">万</span></div>
+      <div class="sc-change up">&#9650; 12.3% 环比上月</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-header"><span class="sc-label">资源利用率</span><div class="sc-icon" style="background:var(--purple-bg)"><svg viewBox="0 0 24 24" style="fill:var(--purple)"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div></div>
+      <div class="sc-value">78%</div>
+      <div class="sc-change up">&#9650; 5% 环比上月</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-header"><span class="sc-label">活跃项目数</span><div class="sc-icon" style="background:var(--green-bg)"><svg viewBox="0 0 24 24" style="fill:var(--green)"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/></svg></div></div>
+      <div class="sc-value">12</div>
+      <div class="sc-change up">&#9650; 1 新增项目</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-header"><span class="sc-label">风险项目数</span><div class="sc-icon" style="background:var(--rose-bg)"><svg viewBox="0 0 24 24" style="fill:var(--rose)"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg></div></div>
+      <div class="sc-value">2</div>
+      <div class="sc-change down">&#9660; 1 已化解</div>
+    </div>
+  </div>
+  <div class="chart-grid">
+    <div class="chart-card">
+      <div class="cc-header"><span class="cc-title">营收趋势</span><div class="filter-chip active" style="font-size:12px;padding:4px 10px">折线图</div></div>
+      <div class="cc-body"><div class="cc-placeholder"><svg viewBox="0 0 24 24"><path d="M3 13h2v8H3zm4-4h2v12H7zm4-6h2v18h-2zm4 10h2v8h-2zm4-12h2v20h-2z"/></svg><div style="font-size:13px;margin-top:6px">图表渲染区域</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px">各月营收变化趋势</div></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="cc-header"><span class="cc-title">项目健康度</span><div class="filter-chip active" style="font-size:12px;padding:4px 10px">饼图</div></div>
+      <div class="cc-body"><div class="cc-placeholder"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/></svg><div style="font-size:13px;margin-top:6px">图表渲染区域</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px">正常 / 关注 / 风险占比</div></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="cc-header"><span class="cc-title">资源负载</span><div class="filter-chip active" style="font-size:12px;padding:4px 10px">柱状图</div></div>
+      <div class="cc-body"><div class="cc-placeholder"><svg viewBox="0 0 24 24"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg><div style="font-size:13px;margin-top:6px">图表渲染区域</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px">各部门负载对比</div></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="cc-header"><span class="cc-title">投入产出</span><div class="filter-chip active" style="font-size:12px;padding:4px 10px">散点图</div></div>
+      <div class="cc-body"><div class="cc-placeholder"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><div style="font-size:13px;margin-top:6px">图表渲染区域</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px">各项目ROI分布</div></div></div>
+    </div>
+  </div>
+</div>`,
+
+  'biz-opportunity': `
+<div class="page-inner">
+  <div class="breadcrumb"><a>首页</a><span class="sep">/</span><span class="current">商机管理</span></div>
+  <div class="page-header"><div><div class="page-title">商机管理</div><div class="page-subtitle">追踪从商机到立项的完整转化链路</div></div><div class="page-actions"><button class="btn btn-primary">+ 新建商机</button></div></div>
+  <div class="filter-bar">
+    <div class="filter-chip active">全部状态</div>
+    <div class="filter-chip">录入中</div>
+    <div class="filter-chip">评估中</div>
+    <div class="filter-chip">转化中</div>
+    <div class="filter-chip">已关闭</div>
+  </div>
+  <div class="table-card">
+    <table>
+      <thead><tr><th>商机名称</th><th>客户</th><th>预估金额</th><th>状态</th><th>负责人</th><th>更新</th></tr></thead>
+      <tbody>
+        <tr><td class="cell-title">XXX平台升级项目</td><td>A公司</td><td style="font-weight:600">¥50万</td><td><span class="tag tag-blue"><span class="tag-dot"></span>评估中</span></td><td><div style="display:flex;align-items:center;gap:8px"><div style="width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,var(--teal),var(--sky));display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600">张</div>张三</div></td><td>06-03</td></tr>
+        <tr><td class="cell-title">YYY系统迁移项目</td><td>B公司</td><td style="font-weight:600">¥120万</td><td><span class="tag tag-amber"><span class="tag-dot"></span>录入中</span></td><td><div style="display:flex;align-items:center;gap:8px"><div style="width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,var(--purple),var(--rose));display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600">李</div>李四</div></td><td>05-28</td></tr>
+        <tr><td class="cell-title">ZZZ数据中台建设</td><td>C公司</td><td style="font-weight:600">¥200万</td><td><span class="tag tag-green"><span class="tag-dot"></span>已转化</span></td><td><div style="display:flex;align-items:center;gap:8px"><div style="width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,var(--amber),var(--rose));display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600">王</div>王五</div></td><td>05-20</td></tr>
+        <tr><td class="cell-title">AAA智能客服系统</td><td>D公司</td><td style="font-weight:600">¥80万</td><td><span class="tag tag-purple"><span class="tag-dot"></span>转化中</span></td><td><div style="display:flex;align-items:center;gap:8px"><div style="width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,var(--teal),var(--sky));display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600">张</div>张三</div></td><td>05-15</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`,
+
+  'biz-approval': `
+<div class="page-inner">
+  <div class="breadcrumb"><a>首页</a><span class="sep">/</span><span class="current">立项审批</span></div>
+  <div class="page-header"><div><div class="page-title">立项审批</div></div></div>
+  <div class="tabs">
+    <div class="tab active">待审批 <span class="tab-count" style="background:var(--rose-bg);color:var(--rose)">3</span></div>
+    <div class="tab">已审批</div>
+  </div>
+  <div class="table-card">
+    <table>
+      <thead><tr><th>项目名称</th><th>MRD 摘要</th><th>提交人</th><th>提交时间</th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="cell-title">XXX平台升级</td><td style="max-width:260px;color:var(--text-muted);font-size:12px;line-height:1.5">建设企业级一体化管理平台，整合现有分散系统资源...</td><td><div style="display:flex;align-items:center;gap:8px"><div style="width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,var(--purple),var(--rose));display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600">李</div>李四</div></td><td>06-01</td><td><button class="btn btn-primary btn-sm">审批</button></td></tr>
+        <tr><td class="cell-title">YYY系统迁移</td><td style="max-width:260px;color:var(--text-muted);font-size:12px;line-height:1.5">将核心业务系统从传统架构迁移至微服务架构...</td><td><div style="display:flex;align-items:center;gap:8px"><div style="width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,var(--teal),var(--sky));display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600">张</div>张三</div></td><td>05-28</td><td><button class="btn btn-primary btn-sm">审批</button></td></tr>
+        <tr><td class="cell-title">数据分析平台</td><td style="max-width:260px;color:var(--text-muted);font-size:12px;line-height:1.5">构建实时数据分析能力，支撑业务决策...</td><td><div style="display:flex;align-items:center;gap:8px"><div style="width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,var(--amber),var(--rose));display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600">王</div>王五</div></td><td>05-25</td><td><button class="btn btn-primary btn-sm">审批</button></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`,
+
+  'biz-analytics': `
+<div class="page-inner">
+  <div class="breadcrumb"><a>首页</a><span class="sep">/</span><span class="current">经营分析</span></div>
+  <div class="page-header"><div><div class="page-title">经营分析</div></div><div class="page-actions"><button class="btn btn-secondary">导出报告</button></div></div>
+  <div class="tabs"><div class="tab active">项目投入产出</div><div class="tab">资源负载</div><div class="tab">趋势分析</div></div>
+  <div class="chart-grid">
+    <div class="chart-card" style="min-height:280px"><div class="cc-header"><span class="cc-title">投入产出比</span></div><div class="cc-body"><div class="cc-placeholder"><svg viewBox="0 0 24 24"><path d="M3 13h2v8H3zm4-4h2v12H7zm4-6h2v18h-2zm4 10h2v8h-2zm4-12h2v20h-2z"/></svg><div style="font-size:13px;margin-top:6px">X轴: 投入工时 / Y轴: 预期收益</div></div></div></div>
+    <div class="chart-card" style="min-height:280px"><div class="cc-header"><span class="cc-title">资源利用率趋势</span></div><div class="cc-body"><div class="cc-placeholder"><svg viewBox="0 0 24 24"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg><div style="font-size:13px;margin-top:6px">各部门月度利用率</div></div></div></div>
+  </div>
+</div>`,
+
+  'biz-resource': `
+<div class="page-inner">
+  <div class="breadcrumb"><a>首页</a><span class="sep">/</span><span class="current">资源管理</span></div>
+  <div class="page-header"><div><div class="page-title">资源管理</div><div class="page-subtitle">团队人员分配与负载总览</div></div><div class="page-actions"><div class="filter-chip active">列表</div><div class="filter-chip">矩阵</div></div></div>
+  <div class="table-card">
+    <table>
+      <thead><tr><th>部门</th><th>总人数</th><th>已分配</th><th>可用率</th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="cell-title">技术部</td><td>20</td><td>17</td><td><div style="display:flex;align-items:center;gap:8px"><div class="progress-track" style="width:80px"><div class="progress-fill" style="width:15%;background:var(--amber)"></div></div><span style="font-size:12px;font-weight:600;color:var(--amber)">15%</span></div></td><td><button class="btn btn-ghost btn-sm">查看</button></td></tr>
+        <tr><td class="cell-title">产品部</td><td>8</td><td>6</td><td><div style="display:flex;align-items:center;gap:8px"><div class="progress-track" style="width:80px"><div class="progress-fill" style="width:25%;background:var(--amber)"></div></div><span style="font-size:12px;font-weight:600;color:var(--amber)">25%</span></div></td><td><button class="btn btn-ghost btn-sm">查看</button></td></tr>
+        <tr><td class="cell-title">设计部</td><td>5</td><td>3</td><td><div style="display:flex;align-items:center;gap:8px"><div class="progress-track" style="width:80px"><div class="progress-fill" style="width:40%;background:var(--green)"></div></div><span style="font-size:12px;font-weight:600;color:var(--green)">40%</span></div></td><td><button class="btn btn-ghost btn-sm">查看</button></td></tr>
+        <tr><td class="cell-title">测试部</td><td>6</td><td>5</td><td><div style="display:flex;align-items:center;gap:8px"><div class="progress-track" style="width:80px"><div class="progress-fill" style="width:17%;background:var(--rose)"></div></div><span style="font-size:12px;font-weight:600;color:var(--rose)">17%</span></div></td><td><button class="btn btn-ghost btn-sm">查看</button></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`,
+
+  'pm-project': `
+<div class="page-inner">
+  <div class="breadcrumb"><a>首页</a><span class="sep">/</span><span class="current">项目管理</span></div>
+  <div class="page-header"><div><div class="page-title">项目管理</div></div><div class="page-actions"><button class="btn btn-primary">+ 创建项目</button></div></div>
+  <div class="filter-bar">
+    <div class="filter-chip active">全部</div><div class="filter-chip">进行中</div><div class="filter-chip">规划中</div><div class="filter-chip">已完成</div>
+  </div>
+  <div class="project-grid">
+    <div class="project-card">
+      <div class="pc-top"><div class="pc-name">平台升级项目</div><span class="tag tag-green"><span class="tag-dot"></span>进行中</span></div>
+      <div class="pc-meta"><span>05-01 ~ 08-31</span><span style="margin-left:auto;display:flex"><div style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--teal),var(--sky));display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600">张</div><div style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--purple),var(--rose));display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600;margin-left:-6px">李</div><div style="width:24px;height:24px;border-radius:7px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text-muted);margin-left:-6px">+3</div></span></div>
+      <div class="progress-track"><div class="progress-fill" style="width:65%;background:var(--blue)"></div></div>
+      <div class="pc-footer"><span class="pc-pct" style="color:var(--blue)">65%</span><span class="pc-tasks">12/18 任务完成</span></div>
+    </div>
+    <div class="project-card">
+      <div class="pc-top"><div class="pc-name">系统迁移</div><span class="tag tag-blue"><span class="tag-dot"></span>规划中</span></div>
+      <div class="pc-meta"><span>06-15 ~ 10-31</span><span style="margin-left:auto;display:flex"><div style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--amber),var(--rose));display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600">王</div><div style="width:24px;height:24px;border-radius:7px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text-muted);margin-left:-6px">+2</div></span></div>
+      <div class="progress-track"><div class="progress-fill" style="width:20%;background:var(--blue)"></div></div>
+      <div class="pc-footer"><span class="pc-pct">20%</span><span class="pc-tasks">2/10 任务完成</span></div>
+    </div>
+    <div class="project-card" style="opacity:0.7">
+      <div class="pc-top"><div class="pc-name">数据中台</div><span class="tag tag-teal"><span class="tag-dot"></span>已完成</span></div>
+      <div class="pc-meta"><span>01-10 ~ 04-30</span><span style="margin-left:auto;display:flex"><div style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--teal),var(--sky));display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600">张</div><div style="width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--purple),var(--rose));display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600;margin-left:-6px">李</div></span></div>
+      <div class="progress-track"><div class="progress-fill" style="width:100%;background:var(--green)"></div></div>
+      <div class="pc-footer"><span class="pc-pct" style="color:var(--green)">100%</span><span class="pc-tasks">15/15 任务完成</span></div>
+    </div>
+  </div>
+</div>`,
+
+  'pm-requirement': `
+<div class="page-inner">
+  <div class="breadcrumb"><a>首页</a><span class="sep">/</span><span class="current">需求管理</span></div>
+  <div class="page-header"><div><div class="page-title">需求管理</div></div><div class="page-actions"><button class="btn btn-primary">+ 创建需求</button></div></div>
+  <div class="filter-bar">
+    <div class="filter-chip active">全部</div><div class="filter-chip">项目A</div><div class="filter-chip">项目B</div>
+    <span style="width:1px;height:20px;background:var(--border);margin:0 4px"></span>
+    <div class="filter-chip">P0</div><div class="filter-chip">P1</div><div class="filter-chip">P2</div>
+  </div>
+  <div class="table-card">
+    <table>
+      <thead><tr><th>需求标题</th><th>项目</th><th>优先级</th><th>状态</th><th>来源</th></tr></thead>
+      <tbody>
+        <tr><td class="cell-title">用户登录模块重构</td><td>项目A</td><td><span class="priority p0">P0</span></td><td><span class="tag tag-green"><span class="tag-dot"></span>已确认</span></td><td>商机分解</td></tr>
+        <tr><td class="cell-title">报表导出功能</td><td>项目A</td><td><span class="priority p1">P1</span></td><td><span class="tag tag-blue"><span class="tag-dot"></span>评审中</span></td><td>客户需求</td></tr>
+        <tr><td class="cell-title">权限管理优化</td><td>项目A</td><td><span class="priority p1">P1</span></td><td><span class="tag tag-amber"><span class="tag-dot"></span>待确认</span></td><td>内部改进</td></tr>
+        <tr><td class="cell-title">数据接口规范化</td><td>项目B</td><td><span class="priority p2">P2</span></td><td><span class="tag tag-green"><span class="tag-dot"></span>已确认</span></td><td>技术债务</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>`,
+
+  'pm-task': `
+<div class="page-inner">
+  <div class="breadcrumb"><a>首页</a><span class="sep">/</span><span class="current">任务看板</span></div>
+  <div class="page-header"><div><div class="page-title">任务看板</div></div><div class="page-actions"><div class="filter-chip active">项目A</div><div class="filter-chip">全部负责人</div></div></div>
+  <div class="split-view">
+    <div class="kanban">
+      <div class="kanban-col">
+        <div class="kanban-col-header">待处理 <span class="kch-count">3</span></div>
+        <div class="kanban-card" onclick="showKanbanDetail(this)"><div class="kc-title">单元测试补全</div><div class="kc-bottom"><span class="priority p1">P1</span><div class="kc-avatar" style="background:linear-gradient(135deg,var(--teal),var(--sky))">张</div></div></div>
+        <div class="kanban-card" onclick="showKanbanDetail(this)"><div class="kc-title">接口联调</div><div class="kc-bottom"><span class="priority p0">P0</span><div class="kc-avatar" style="background:linear-gradient(135deg,var(--purple),var(--rose))">李</div></div></div>
+        <div class="kanban-card" onclick="showKanbanDetail(this)"><div class="kc-title">文档更新</div><div class="kc-bottom"><span class="priority p2">P2</span><div class="kc-avatar" style="background:linear-gradient(135deg,var(--amber),var(--rose))">王</div></div></div>
+      </div>
+      <div class="kanban-col">
+        <div class="kanban-col-header">进行中 <span class="kch-count">2</span></div>
+        <div class="kanban-card" onclick="showKanbanDetail(this)"><div class="kc-title">API 接口设计</div><div class="kc-bottom"><span class="priority p0">P0</span><div class="kc-avatar" style="background:linear-gradient(135deg,var(--teal),var(--sky))">张</div></div></div>
+        <div class="kanban-card" onclick="showKanbanDetail(this)"><div class="kc-title">数据库优化</div><div class="kc-bottom"><span class="priority p1">P1</span><div class="kc-avatar" style="background:linear-gradient(135deg,var(--purple),var(--rose))">李</div></div></div>
+      </div>
+      <div class="kanban-col">
+        <div class="kanban-col-header">待验收 <span class="kch-count">1</span></div>
+        <div class="kanban-card" onclick="showKanbanDetail(this)"><div class="kc-title">代码重构</div><div class="kc-bottom"><span class="priority p1">P1</span><div class="kc-avatar" style="background:linear-gradient(135deg,var(--amber),var(--rose))">王</div></div></div>
+      </div>
+      <div class="kanban-col">
+        <div class="kanban-col-header">已完成 <span class="kch-count">4</span></div>
+        <div class="kanban-card" onclick="showKanbanDetail(this)" style="opacity:0.65"><div class="kc-title">需求分析文档</div><div class="kc-bottom"><span class="priority p0">P0</span><div class="kc-avatar" style="background:linear-gradient(135deg,var(--teal),var(--sky))">张</div></div></div>
+        <div class="kanban-card" onclick="showKanbanDetail(this)" style="opacity:0.65"><div class="kc-title">技术方案评审</div><div class="kc-bottom"><span class="priority p1">P1</span><div class="kc-avatar" style="background:linear-gradient(135deg,var(--purple),var(--rose))">李</div></div></div>
+      </div>
+    </div>
+    <div class="detail-panel" id="kanban-detail">
+      <div style="text-align:center;padding:60px 20px;color:var(--text-muted)">
+        <div style="font-size:28px;margin-bottom:12px">:)</div>
+        <div style="font-size:14px;font-weight:500">点击左侧任务卡片</div>
+        <div style="font-size:12px;margin-top:4px">查看详情、验收标准和执行记录</div>
+      </div>
+    </div>
+  </div>
+</div>`,
+
+  'pm-progress': `
+<div class="page-inner">
+  <div class="breadcrumb"><a>首页</a><span class="sep">/</span><span class="current">进度管控</span></div>
+  <div class="page-header"><div><div class="page-title">进度管控</div></div></div>
+  <div class="tabs"><div class="tab active">项目进度</div><div class="tab">风险预警 <span class="tab-count" style="background:var(--rose-bg);color:var(--rose)">2</span></div><div class="tab">需求变更</div></div>
+  <div class="card" style="margin-bottom:20px">
+    <div class="milestone-track" style="padding:20px 0 30px">
+      <div class="ms-node"><div class="ms-connector done" style="display:none"></div><div class="ms-dot done">&#10003;</div><div class="ms-label">M1 需求分析</div><div class="ms-status" style="color:var(--green)">已完成</div><div class="ms-connector done"></div></div>
+      <div class="ms-node"><div class="ms-connector pending" style="display:none"></div><div class="ms-dot active">2</div><div class="ms-label">M2 API开发</div><div class="ms-status" style="color:var(--blue)">进行中</div><div class="ms-connector pending"></div></div>
+      <div class="ms-node"><div class="ms-dot pending">3</div><div class="ms-label muted">M3 集成测试</div><div class="ms-status">未开始</div><div class="ms-connector pending"></div></div>
+      <div class="ms-node"><div class="ms-dot pending">4</div><div class="ms-label muted">M4 交付上线</div><div class="ms-status">未开始</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div style="font-size:14px;font-weight:600;margin-bottom:16px">M2: API开发 — 任务进度</div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="font-weight:500">API 接口设计</span><span style="font-weight:600;color:var(--blue)">80%</span></div><div class="progress-track" style="height:6px"><div class="progress-fill" style="width:80%;background:var(--blue)"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="font-weight:500">数据库结构优化</span><span style="font-weight:600;color:var(--amber)">50%</span></div><div class="progress-track" style="height:6px"><div class="progress-fill" style="width:50%;background:var(--amber)"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="font-weight:500">第三方接口对接</span><span style="font-weight:600;color:var(--rose)">20%</span></div><div class="progress-track" style="height:6px"><div class="progress-fill" style="width:20%;background:var(--rose)"></div></div></div>
+    </div>
+  </div>
+</div>`,
+
+  'pm-delivery': `
+<div class="page-inner">
+  <div class="breadcrumb"><a>首页</a><span class="sep">/</span><a>项目A</a><span class="sep">/</span><span class="current">交付验收</span></div>
+  <div class="page-header"><div><div class="page-title">交付验收</div><div class="page-subtitle">项目A — 最终交付物检查与验收</div></div></div>
+  <div class="tabs"><div class="tab active">交付物检查</div><div class="tab">验收确认</div><div class="tab">效果评估</div></div>
+  <div class="table-card" style="margin-bottom:24px">
+    <table>
+      <thead><tr><th>交付物名称</th><th>类型</th><th>状态</th><th>提交人</th></tr></thead>
+      <tbody>
+        <tr><td class="cell-title">API 接口文档</td><td>文档</td><td><span class="tag tag-green"><span class="tag-dot"></span>已提交</span></td><td>张三</td></tr>
+        <tr><td class="cell-title">单元测试报告</td><td>报告</td><td><span class="tag tag-green"><span class="tag-dot"></span>已提交</span></td><td>李四</td></tr>
+        <tr><td class="cell-title">部署脚本</td><td>代码</td><td><span class="tag tag-green"><span class="tag-dot"></span>已提交</span></td><td>王五</td></tr>
+        <tr><td class="cell-title">用户手册</td><td>文档</td><td><span class="tag tag-rose"><span class="tag-dot"></span>未提交</span></td><td>张三</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="font-size:14px;font-weight:600;margin-bottom:16px">数字员工执行成效</div>
+  <div class="eval-grid">
+    <div class="eval-card" style="background:var(--green-bg)">
+      <div class="ec-icon">&#128200;</div>
+      <div><div class="ec-value">85%</div><div class="ec-label">初稿可用率</div></div>
+      <div class="ec-status pass">&#10003; 目标>70%</div>
+    </div>
+    <div class="eval-card" style="background:var(--amber-bg)">
+      <div class="ec-icon">&#9888;</div>
+      <div><div class="ec-value">2次</div><div class="ec-label">结果偏差信号</div></div>
+      <div class="ec-status pass">&#10003; 阈值3次</div>
+    </div>
+    <div class="eval-card" style="background:var(--blue-bg)">
+      <div class="ec-icon">&#9201;</div>
+      <div><div class="ec-value">90%</div><div class="ec-label">任务按时完成率</div></div>
+      <div class="ec-status pass">&#10003;</div>
+    </div>
+    <div class="eval-card" style="background:var(--purple-bg)">
+      <div class="ec-icon">&#128260;</div>
+      <div><div class="ec-value">3次</div><div class="ec-label">人工返工次数</div></div>
+      <div class="ec-status warn">偏高</div>
+    </div>
+  </div>
+</div>`,
+
+  'dev-workspace': `
+<div class="page-inner">
+  <div class="breadcrumb"><a>首页</a><span class="sep">/</span><span class="current">个人工作台</span></div>
+  <div class="page-header"><div><div class="page-title">个人工作台</div><div class="page-subtitle">欢迎回来，张三</div></div></div>
+  <div class="task-group">
+    <div class="tg-header"><span class="tg-icon">&#128308;</span> 待办任务 <span class="tg-badge" style="background:var(--rose-bg);color:var(--rose)">3</span></div>
+    <div class="ws-card"><div class="ws-bar" style="background:var(--rose)"></div><div class="ws-title">接口联调</div><span class="priority p0">P0</span><div class="ws-project">项目A</div><button class="btn btn-primary btn-sm">开始</button></div>
+    <div class="ws-card"><div class="ws-bar" style="background:var(--amber)"></div><div class="ws-title">单元测试补全</div><span class="priority p1">P1</span><div class="ws-project">项目A</div><button class="btn btn-primary btn-sm">开始</button></div>
+    <div class="ws-card"><div class="ws-bar" style="background:var(--blue)"></div><div class="ws-title">文档更新</div><span class="priority p2">P2</span><div class="ws-project">项目B</div><button class="btn btn-primary btn-sm">开始</button></div>
+  </div>
+  <div class="task-group">
+    <div class="tg-header"><span class="tg-icon">&#128996;</span> 进行中 <span class="tg-badge" style="background:var(--blue-bg);color:var(--blue)">2</span></div>
+    <div class="ws-card"><div class="ws-bar" style="background:var(--rose)"></div><div class="ws-title">API 接口设计</div><span class="priority p0">P0</span><div style="margin-left:auto;width:100px"><div class="progress-track"><div class="progress-fill" style="width:80%;background:var(--blue)"></div></div><div style="font-size:11px;text-align:right;margin-top:3px;color:var(--text-muted)">80%</div></div></div>
+    <div class="ws-card"><div class="ws-bar" style="background:var(--amber)"></div><div class="ws-title">数据库优化</div><span class="priority p1">P1</span><div style="margin-left:auto;width:100px"><div class="progress-track"><div class="progress-fill" style="width:40%;background:var(--amber)"></div></div><div style="font-size:11px;text-align:right;margin-top:3px;color:var(--text-muted)">40%</div></div></div>
+  </div>
+  <div class="task-group">
+    <div class="tg-header"><span class="tg-icon">&#128994;</span> 已完成（本周）<span class="tg-badge" style="background:var(--green-bg);color:var(--green)">5</span></div>
+    <div class="ws-card" style="opacity:0.6"><div class="ws-bar" style="background:var(--green)"></div><div class="ws-title">代码重构</div><span class="priority p1">P1</span><div class="ws-project">项目A</div><span class="tag tag-green" style="font-size:11px">&#10003; 已验收</span></div>
+  </div>
+</div>`,
+
+  'dev-task-exec': `
+<div class="page-inner">
+  <div class="breadcrumb"><a>首页</a><span class="sep">/</span><a>个人工作台</a><span class="sep">/</span><span class="current">API 接口设计</span></div>
+  <div class="page-header"><div><div class="page-title">任务执行</div><div class="page-subtitle">API 接口设计</div></div><div class="page-actions"><button class="btn btn-secondary">返回</button></div></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+    <div class="card">
+      <div class="dp-label" style="margin-bottom:14px">任务信息</div>
+      <div class="dp-row"><span class="dp-key">优先级</span><span class="priority p0">P0</span></div>
+      <div class="dp-row"><span class="dp-key">关联需求</span><span style="color:var(--blue);font-weight:500">用户登录模块重构</span></div>
+      <div class="dp-row"><span class="dp-key">状态</span><span class="tag tag-blue"><span class="tag-dot"></span>进行中</span></div>
+      <div style="margin-top:18px">
+        <div class="dp-label">验收标准</div>
+        <div class="checklist-item"><div class="check-icon done">&#10003;</div>接口文档完成</div>
+        <div class="checklist-item"><div class="check-icon miss">!</div><span style="color:var(--rose)">单元测试覆盖率 > 80%</span></div>
+        <div class="checklist-item"><div class="check-icon done">&#10003;</div>代码评审通过</div>
+      </div>
+      <div style="margin-top:18px">
+        <div class="dp-label">上下文</div>
+        <div style="font-size:13px;line-height:2"><a style="color:var(--blue)">技术方案文档</a></div>
+        <div style="font-size:13px;line-height:2"><a style="color:var(--blue)">需求详细文档</a></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="dp-label" style="margin-bottom:14px">执行记录</div>
+      <div style="position:relative;padding-left:20px;border-left:2px solid var(--border-light)">
+        <div style="margin-bottom:20px;position:relative"><div style="position:absolute;left:-26px;top:2px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--surface)"></div><div style="font-size:13px;font-weight:500">提交接口设计初稿</div><div style="font-size:12px;color:var(--text-muted);margin-top:2px">06-03 14:30</div></div>
+        <div style="margin-bottom:20px;position:relative"><div style="position:absolute;left:-26px;top:2px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--surface)"></div><div style="font-size:13px;font-weight:500">开始设计 API 接口</div><div style="font-size:12px;color:var(--text-muted);margin-top:2px">06-03 10:00</div></div>
+        <div style="position:relative"><div style="position:absolute;left:-26px;top:2px;width:10px;height:10px;border-radius:50%;background:var(--blue);border:2px solid var(--surface)"></div><div style="font-size:13px;font-weight:500">任务分配</div><div style="font-size:12px;color:var(--text-muted);margin-top:2px">06-02 16:00</div></div>
+      </div>
+      <div style="margin-top:24px;padding-top:16px;border-top:1px solid var(--border-light)">
+        <div style="display:flex;gap:10px"><button class="btn btn-secondary" style="flex:1">上传产出物</button><button class="btn btn-secondary" style="flex:1">关联证据</button></div>
+        <button class="btn btn-primary" style="width:100%;margin-top:10px">标记完成</button>
+      </div>
+    </div>
+  </div>
+</div>`,
+
+  'dev-ai-collab': `
+<div class="page-inner">
+  <div class="breadcrumb"><a>首页</a><span class="sep">/</span><span class="current">数字员工协同</span></div>
+  <div class="page-header"><div><div class="page-title">数字员工协同</div><div class="page-subtitle">查看数字员工执行状态与输出结果</div></div></div>
+  <div class="tabs"><div class="tab active">执行状态</div><div class="tab">执行结果</div></div>
+  <div class="table-card" style="margin-bottom:24px">
+    <table>
+      <thead><tr><th>任务名称</th><th>数字员工</th><th>状态</th><th>更新</th></tr></thead>
+      <tbody>
+        <tr><td class="cell-title">代码审查</td><td><span class="tag tag-purple"><span class="tag-dot"></span>CodeReview</span></td><td><span class="tag tag-blue"><span class="tag-dot"></span>执行中</span></td><td>2分钟前</td></tr>
+        <tr><td class="cell-title">文档生成</td><td><span class="tag tag-purple"><span class="tag-dot"></span>DocWriter</span></td><td><span class="tag tag-green"><span class="tag-dot"></span>已完成</span></td><td>10分钟前</td></tr>
+        <tr><td class="cell-title">测试用例生成</td><td><span class="tag tag-purple"><span class="tag-dot"></span>TestGen</span></td><td><span class="tag tag-amber"><span class="tag-dot"></span>等待确认</span></td><td>1小时前</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="font-size:14px;font-weight:600;margin-bottom:12px">SSE 流式输出预览</div>
+  <div class="sse-panel">
+<span class="sse-label">审查结果：</span>发现 <span class="sse-num">3</span> 个潜在问题：
+
+<span class="sse-num">1.</span> <span class="sse-path">auth/token.js:45</span> 未处理 token 过期情况
+<span class="sse-num">2.</span> <span class="sse-path">api/user.js:82</span> 缺少参数校验逻辑
+<span class="sse-num">3.</span> <span class="sse-path">utils/validate.js:16</span> 正则表达式存在回溯风险
+
+<span class="sse-label">建议修改方案：</span>
+在 token 校验中间件添加过期检测，捕获<span class="sse-path">TokenExpiredError</span>...<span class="cursor-blink"></span>
+  </div>
+  <div style="display:flex;gap:10px;margin-top:14px;justify-content:flex-end">
+    <button class="btn btn-secondary">打回重新执行</button>
+    <button class="btn btn-primary">确认结果</button>
+  </div>
+</div>`,
+
+  'dev-asset': `
+<div class="page-inner">
+  <div class="breadcrumb"><a>首页</a><span class="sep">/</span><span class="current">技术资产</span></div>
+  <div class="page-header"><div><div class="page-title">技术资产</div></div><div class="page-actions"><button class="btn btn-primary">贡献资产</button></div></div>
+  <div class="two-col">
+    <div class="left-nav">
+      <div class="ln-item active">全部资产 <span class="ln-count">12</span></div>
+      <div class="ln-item">架构设计 <span class="ln-count">3</span></div>
+      <div class="ln-item">代码模板 <span class="ln-count">4</span></div>
+      <div class="ln-item">测试用例 <span class="ln-count">2</span></div>
+      <div class="ln-item">工具脚本 <span class="ln-count">1</span></div>
+      <div class="ln-item">技术文档 <span class="ln-count">1</span></div>
+      <div class="ln-item">最佳实践 <span class="ln-count">1</span></div>
+    </div>
+    <div class="right-content">
+      <table>
+        <thead><tr><th>名称</th><th>类型</th><th>更新时间</th></tr></thead>
+        <tbody>
+          <tr><td class="cell-title">微服务架构模板</td><td><span class="tag tag-blue"><span class="tag-dot"></span>文档</span></td><td>05-30</td></tr>
+          <tr><td class="cell-title">JWT 认证模板</td><td><span class="tag tag-purple"><span class="tag-dot"></span>代码</span></td><td>05-28</td></tr>
+          <tr><td class="cell-title">API 测试套件</td><td><span class="tag tag-green"><span class="tag-dot"></span>测试</span></td><td>05-25</td></tr>
+          <tr><td class="cell-title">日志分析脚本</td><td><span class="tag tag-amber"><span class="tag-dot"></span>脚本</span></td><td>05-20</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>`,
+
+  'dev-knowledge': `
+<div class="page-inner">
+  <div class="breadcrumb"><a>首页</a><span class="sep">/</span><span class="current">知识体系</span></div>
+  <div class="page-header"><div><div class="page-title">知识体系</div></div><div class="page-actions"><div class="filter-chip active">全部</div><div class="filter-chip">我的收藏</div></div></div>
+  <div class="two-col">
+    <div class="left-nav">
+      <div class="ln-item active">全部</div>
+      <div class="ln-item">技术规范</div>
+      <div class="ln-item">流程规范</div>
+      <div class="ln-item">产品知识</div>
+      <div class="ln-item">项目经验</div>
+      <div class="ln-item">行业洞察</div>
+    </div>
+    <div class="right-content">
+      <div class="ws-card" style="border:1px solid var(--border-light);margin-bottom:8px"><div class="ws-title">JWT 最佳实践指南 <span style="color:var(--amber);font-size:13px;margin-left:4px">&#9733;</span></div><div style="margin-left:auto;font-size:12px;color:var(--text-muted)">技术规范 &middot; 06-01</div></div>
+      <div class="ws-card" style="border:1px solid var(--border-light);margin-bottom:8px"><div class="ws-title">API 设计规范 <span style="color:var(--amber);font-size:13px;margin-left:4px">&#9733;</span></div><div style="margin-left:auto;font-size:12px;color:var(--text-muted)">技术规范 &middot; 05-28</div></div>
+      <div class="ws-card" style="border:1px solid var(--border-light);margin-bottom:8px"><div class="ws-title">微服务拆分原则</div><div style="margin-left:auto;font-size:12px;color:var(--text-muted)">产品知识 &middot; 05-25</div></div>
+      <div class="ws-card" style="border:1px solid var(--border-light)"><div class="ws-title">敏捷开发流程实践</div><div style="margin-left:auto;font-size:12px;color:var(--text-muted)">流程规范 &middot; 05-20</div></div>
+    </div>
+  </div>
+</div>`,
+
+  'message': `
+<div class="page-inner">
+  <div class="breadcrumb"><a>首页</a><span class="sep">/</span><span class="current">消息中心</span></div>
+  <div class="page-header"><div><div class="page-title">消息中心</div></div><div class="page-actions"><button class="btn btn-secondary">全部已读</button></div></div>
+  <div class="tabs"><div class="tab active">全部</div><div class="tab">系统通知</div><div class="tab">预警提醒</div><div class="tab">@我的</div></div>
+  <div class="card">
+    <div class="msg-item"><div class="msg-dot-wrap"><div class="msg-dot unread"></div></div><div class="msg-body"><div class="msg-title">任务"API设计"已被验收通过</div><div class="msg-route">项目A &gt; 任务管理 &gt; <a>点击查看</a></div></div><div class="msg-time">5分钟前</div></div>
+    <div class="msg-item"><div class="msg-dot-wrap"><div class="msg-dot unread"></div></div><div class="msg-body"><div class="msg-title">风险预警：里程碑M2可能延期</div><div class="msg-route">项目A &gt; 进度管控 &gt; <a>点击查看</a></div></div><div class="msg-time">1小时前</div></div>
+    <div class="msg-item"><div class="msg-dot-wrap"><div class="msg-dot unread"></div></div><div class="msg-body"><div class="msg-title">@张三 在需求"登录模块重构"中提及了你</div><div class="msg-route">项目A &gt; 需求管理 &gt; <a>点击查看</a></div></div><div class="msg-time">2小时前</div></div>
+    <div class="msg-item"><div class="msg-dot-wrap"><div class="msg-dot read"></div></div><div class="msg-body"><div class="msg-title" style="color:var(--text-secondary)">数字员工 CodeReview 执行完成</div><div class="msg-route">项目A &gt; 数字员工协同 &gt; <a>点击查看</a></div></div><div class="msg-time">3小时前</div></div>
+    <div class="msg-item"><div class="msg-dot-wrap"><div class="msg-dot read"></div></div><div class="msg-body"><div class="msg-title" style="color:var(--text-secondary)">立项审批：YYY系统迁移已通过</div><div class="msg-route">立项审批 &gt; <a>点击查看</a></div></div><div class="msg-time">昨天</div></div>
+  </div>
+</div>`,
+
+  'settings': `
+<div class="page-inner">
+  <div class="breadcrumb"><a>首页</a><span class="sep">/</span><span class="current">个人设置</span></div>
+  <div class="page-header"><div><div class="page-title">个人设置</div></div></div>
+  <div class="tabs"><div class="tab active">账号信息</div><div class="tab">通知偏好</div><div class="tab">显示设置</div></div>
+  <div class="card" style="max-width:560px">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border-light)">
+      <div style="width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,var(--teal),var(--sky));display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600;color:#fff">张</div>
+      <div><div style="font-size:16px;font-weight:600">张三</div><div style="font-size:13px;color:var(--text-secondary)">复合型研发经理 &middot; 技术部</div><div style="margin-top:8px"><button class="btn btn-secondary btn-sm">更换头像</button></div></div>
+    </div>
+    <div class="setting-row"><div><div class="sr-label">姓名</div></div><div style="font-size:13px;color:var(--text-secondary)">张三</div></div>
+    <div class="setting-row"><div><div class="sr-label">邮箱</div></div><div style="font-size:13px;color:var(--text-secondary)">zhangsan@example.com</div></div>
+    <div class="setting-row"><div><div class="sr-label">部门</div></div><div style="font-size:13px;color:var(--text-secondary)">技术部</div></div>
+    <div class="setting-row"><div><div class="sr-label">角色</div></div><div><span class="tag tag-teal"><span class="tag-dot"></span>复合型研发经理</span></div></div>
+    <div style="margin-top:24px"><button class="btn btn-primary">保存修改</button></div>
+  </div>
+</div>`
+};
+
+let currentRole = 'biz';
+let currentPage = 'biz-dashboard';
+
+function renderSidebar(role) {
+  const sb = document.getElementById('sidebar');
+  const menus = roleMenuMap[role] || [];
+  let nav = '';
+  menus.forEach(s => {
+    nav += `<div class="sidebar-section"><div class="sidebar-label">${s.section}</div>`;
+    s.items.forEach(i => {
+      nav += `<div class="sidebar-item ${i.id===currentPage?'active':''}" onclick="navigateTo('${i.id}')"><div class="si-icon">${icon(i.label)}</div><span>${i.label}</span>${i.badge?`<span class="si-badge">${i.badge}</span>`:''}</div>`;
+    });
+    nav += '</div>';
+  });
+  if (role !== 'common') {
+    nav += '<div class="sidebar-section" style="border-top:1px solid var(--border-light);padding-top:12px"><div class="sidebar-label">通用</div>';
+    roleMenuMap.common[0].items.forEach(i => {
+      nav += `<div class="sidebar-item ${i.id===currentPage?'active':''}" onclick="navigateTo('${i.id}')"><div class="si-icon">${icon(i.label)}</div><span>${i.label}</span></div>`;
+    });
+    nav += '</div>';
+  }
+
+  const userFooter = `
+    <div class="sidebar-user">
+      <div class="sidebar-user-profile" onclick="navigateTo('settings')">
+        <div class="sidebar-user-avatar">张</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name">张三</div>
+          <div class="sidebar-user-role">复合型研发经理</div>
+        </div>
+        <span class="sidebar-user-arrow">&#9662;</span>
+      </div>
+    </div>`;
+
+  sb.innerHTML = `<div class="sidebar-nav">${nav}</div>${userFooter}`;
+}
+
+function icon(label) {
+  const m = {
+    '经营数据看板':'<svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>',
+    '商机管理':'<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
+    '立项审批':'<svg viewBox="0 0 24 24"><path d="M18 3H6c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H6V5h2v8l2.5-1.5L13 13V5h5v14z"/></svg>',
+    '经营分析':'<svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>',
+    '资源管理':'<svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>',
+    '项目管理':'<svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/></svg>',
+    '需求管理':'<svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>',
+    '任务看板':'<svg viewBox="0 0 24 24"><path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z"/></svg>',
+    '进度管控':'<svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>',
+    '交付收口':'<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>',
+    '个人工作台':'<svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>',
+    '任务执行':'<svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>',
+    '数字员工协同':'<svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 012 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 017 7h1a1 1 0 011 1v3a1 1 0 01-1 1h-1.27A7 7 0 0113 23h-2a7 7 0 01-6.73-4H3a1 1 0 01-1-1v-3a1 1 0 011-1h1a7 7 0 017-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 012-2zM7.5 13a1.5 1.5 0 000 3 1.5 1.5 0 000-3zm9 0a1.5 1.5 0 000 3 1.5 1.5 0 000-3z"/></svg>',
+    '技术资产':'<svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>',
+    '知识体系':'<svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>',
+    '消息中心':'<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>',
+    '个人设置':'<svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.49.49 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>'
+  };
+  return m[label]||'';
+}
+
+function switchRole(role) {
+  currentRole = role;
+  document.querySelectorAll('.role-pill').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.role-pill[data-role="${role}"]`).classList.add('active');
+  const menus = roleMenuMap[role];
+  navigateTo(menus[0].items[0].id);
+}
+
+function navigateTo(id) {
+  currentPage = id;
+  renderSidebar(currentRole);
+  const main = document.getElementById('main');
+  main.scrollTop = 0;
+  main.innerHTML = pages[id] || '<div class="page-inner" style="text-align:center;padding:80px;color:var(--text-muted)">页面开发中</div>';
+}
+
+function showKanbanDetail(card) {
+  const title = card.querySelector('.kc-title').textContent;
+  document.getElementById('kanban-detail').innerHTML = `
+    <div style="font-size:15px;font-weight:600;margin-bottom:18px">${title}</div>
+    <div class="dp-section"><div class="dp-label">基本信息</div>
+      <div class="dp-row"><span class="dp-key">状态</span><span class="tag tag-blue"><span class="tag-dot"></span>进行中</span></div>
+      <div class="dp-row"><span class="dp-key">优先级</span><span class="priority p0">P0</span></div>
+      <div class="dp-row"><span class="dp-key">负责人</span><span>张三</span></div>
+      <div class="dp-row"><span class="dp-key">关联需求</span><span style="color:var(--blue);font-weight:500">用户登录模块重构</span></div>
+    </div>
+    <div class="dp-section"><div class="dp-label">验收标准</div>
+      <div class="checklist-item"><div class="check-icon done">&#10003;</div>接口文档完成</div>
+      <div class="checklist-item"><div class="check-icon miss">!</div><span style="color:var(--rose)">单元测试覆盖率 > 80%</span></div>
+    </div>
+    <div class="dp-section"><div class="dp-label">声明 vs 证据</div>
+      <div class="claim-vs-evidence">
+        <div class="cve-claim"><div class="cve-icon">声</div><div><div class="cve-label">声明</div><div class="cve-text">接口设计已完成</div></div></div>
+        <div class="cve-evidence"><div class="cve-icon">证</div><div><div class="cve-label">证据</div><div class="cve-text"><a style="color:var(--blue)">查看文档链接</a></div></div></div>
+      </div>
+    </div>
+    <div class="dp-section"><div class="dp-label">执行记录</div>
+      <div style="font-size:12px;color:var(--text-secondary);line-height:2"><div>06-03 开始执行</div><div>06-02 任务分配</div></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border-light)">
+      <button class="btn btn-primary btn-sm" style="flex:1">验收通过</button>
+      <button class="btn btn-secondary btn-sm" style="flex:1;color:var(--rose);border-color:var(--rose-bg)">验收打回</button>
+    </div>`;
+}
+
+document.addEventListener('DOMContentLoaded', () => { renderSidebar(currentRole); navigateTo(currentPage); });
+</script>
+</body>
+</html>
