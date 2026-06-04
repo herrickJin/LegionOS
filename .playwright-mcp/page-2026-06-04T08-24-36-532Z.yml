@@ -1,0 +1,240 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e264]:
+    - generic [ref=e265]: i
+    - generic [ref=e266]:
+      - generic [ref=e267]: 已进入工作台
+      - generic [ref=e268]: 当前流程：BUG修复 · TestGen 已就绪
+    - img [ref=e270] [cursor=pointer]
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e273]:
+        - generic [ref=e274] [cursor=pointer]:
+          - img [ref=e276]
+          - generic [ref=e278]: LegionOS
+        - generic [ref=e279] [cursor=pointer]:
+          - img [ref=e280]
+          - generic [ref=e282]: 搜索...
+          - generic [ref=e283]: ⌘K
+      - generic [ref=e284]:
+        - generic [ref=e285]:
+          - generic [ref=e286]: 工作
+          - generic [ref=e287] [cursor=pointer]:
+            - img [ref=e289]
+            - generic [ref=e291]: 我的任务
+            - generic [ref=e292]: "5"
+          - generic [ref=e293] [cursor=pointer]:
+            - img [ref=e295]
+            - generic [ref=e297]: 数字员工协同
+            - generic [ref=e298]: "4"
+        - generic [ref=e299]:
+          - generic [ref=e300]: 资产
+          - generic [ref=e301] [cursor=pointer]:
+            - img [ref=e303]
+            - generic [ref=e305]: 技术资产
+          - generic [ref=e306] [cursor=pointer]:
+            - img [ref=e308]
+            - generic [ref=e310]: 知识体系
+      - generic [ref=e311]:
+        - generic [ref=e312]:
+          - generic [ref=e313] [cursor=pointer]:
+            - img [ref=e315]
+            - generic [ref=e317]: 消息
+            - generic [ref=e318]: "3"
+          - generic [ref=e319] [cursor=pointer]:
+            - img [ref=e321]
+            - generic [ref=e323]: 设置
+          - generic [ref=e324] [cursor=pointer]:
+            - img [ref=e326]
+            - generic [ref=e328]: 帮助
+        - generic [ref=e330] [cursor=pointer]:
+          - generic [ref=e331]: 张
+          - generic [ref=e332]:
+            - generic [ref=e333]: 张三
+            - generic [ref=e334]: AI工程师
+          - img [ref=e336]
+    - generic [ref=e338]:
+      - generic [ref=e339]:
+        - generic [ref=e340]:
+          - img [ref=e341]
+          - text: BUG修复
+        - generic [ref=e343]: "BUG-2338: 导出报表数据错位"
+        - generic [ref=e344]: TestGen · 在线
+        - button [ref=e345] [cursor=pointer]:
+          - img [ref=e346]
+      - generic [ref=e348]:
+        - generic [ref=e349]:
+          - generic [ref=e350]:
+            - generic [ref=e351]:
+              - generic [ref=e352]: TG
+              - generic [ref=e353]:
+                - generic [ref=e354]:
+                  - text: 你好！我来协助处理 BUG-2341「SSO 登录偶发白屏」。
+                  - text: 按照规范，建议我们按以下步骤推进：
+                  - text: ① 确认复现 → ② 定位代码 → ③ 修复 → ④ 自测 → ⑤ 提交验证
+                  - text: 我先帮你确认复现环境...
+                - generic [ref=e355] [cursor=pointer]:
+                  - generic [ref=e356]:
+                    - generic [ref=e357]: 🔬
+                    - generic [ref=e358]: 复现环境信息
+                    - generic [ref=e359]: 运行复现脚本 →
+                  - generic [ref=e360]:
+                    - generic [ref=e361]: Chrome 113 · macOS 13.4
+                    - generic [ref=e362]: staging.example.com
+                    - generic [ref=e363]: SSO 登录用户
+                    - generic [ref=e364]: 复现率 100% (5/5)
+                - generic [ref=e365]: 14:30
+            - generic [ref=e366]:
+              - generic [ref=e367]: TG
+              - generic [ref=e368]:
+                - generic [ref=e369]:
+                  - text: "复现确认！报错在 auth/token.js:45，TypeError: Cannot read properties of undefined"
+                  - text: 点击卡片查看完整代码 → 可联动右面板
+                - generic [ref=e370] [cursor=pointer]:
+                  - generic [ref=e371]:
+                    - generic [ref=e372]: 📍
+                    - generic [ref=e373]: 代码定位 · auth/token.js:45
+                    - generic [ref=e374]: 在编辑器中打开 →
+                  - generic [ref=e375]:
+                    - text: "export async function verifyToken(req, res, next) {"
+                    - text: const token = req.headers.authorization?.split(' ')[1];
+                    - text: "// BUG: 未处理 token 过期情况"
+                    - text: const decoded = jwt.verify(token, SECRET);
+                    - text: req.user = decoded;
+                    - text: next();
+                    - text: "}"
+                - generic [ref=e376]: 14:32
+            - generic [ref=e377]:
+              - generic [ref=e378]: 张
+              - generic [ref=e379]:
+                - generic [ref=e380]: 帮我分析这行代码的问题
+                - generic [ref=e381]: 14:33
+            - generic [ref=e382]:
+              - generic [ref=e383]: TG
+              - generic [ref=e384]:
+                - generic [ref=e385]:
+                  - text: 分析完成！
+                  - text: 根因：jwt.verify 未捕获 TokenExpiredError，token 过期时直接抛异常。
+                  - text: 修复方案：添加 try-catch 包裹 jwt.verify
+                - generic [ref=e386] [cursor=pointer]:
+                  - generic [ref=e387]:
+                    - generic [ref=e388]: 🔧
+                    - generic [ref=e389]: 修复建议 · 代码对比
+                    - generic [ref=e390]: 查看完整 Diff →
+                  - generic [ref=e392]:
+                    - generic [ref=e393]: "+8"
+                    - generic [ref=e394]: "-3"
+                - generic [ref=e395]: 14:33
+            - generic [ref=e396]:
+              - generic [ref=e397]: TG
+              - generic [ref=e398]:
+                - generic [ref=e399]:
+                  - text: 修复已生成！变更如下：
+                  - text: 点击卡片查看完整 Diff →
+                - generic [ref=e400] [cursor=pointer]:
+                  - generic [ref=e401]:
+                    - generic [ref=e402]: 📊
+                    - generic [ref=e403]: Diff 摘要 · 3 files changed
+                    - generic [ref=e404]: 展开完整 Diff →
+                  - generic [ref=e406]:
+                    - generic [ref=e407]: 3 files
+                    - generic [ref=e408]: "+32"
+                    - generic [ref=e409]: "-8"
+                - generic [ref=e410]:
+                  - generic [ref=e411]: 你可以试试
+                  - button "运行自测用例" [ref=e412] [cursor=pointer]
+                  - button "请求 CodeReview" [ref=e413] [cursor=pointer]
+                - generic [ref=e414]: 14:34
+            - generic [ref=e415]:
+              - generic [ref=e416]: 张
+              - generic [ref=e417]:
+                - generic [ref=e418]: 运行自测
+                - generic [ref=e419]: 14:35
+            - generic [ref=e420]:
+              - generic [ref=e421]: TG
+              - generic [ref=e422]:
+                - generic [ref=e423]: 自测全部通过！4/4 tests, Coverage 92%
+                - generic [ref=e424] [cursor=pointer]:
+                  - generic [ref=e425]:
+                    - generic [ref=e426]: ✓
+                    - generic [ref=e427]: 测试结果
+                    - generic [ref=e428]: 查看测试详情 →
+                  - generic [ref=e429]:
+                    - generic [ref=e430]:
+                      - generic [ref=e431]: 4/4
+                      - generic [ref=e432]: Tests
+                    - generic [ref=e433]:
+                      - generic [ref=e434]: 92%
+                      - generic [ref=e435]: Coverage
+                    - generic [ref=e436]:
+                      - generic [ref=e437]: 1.2s
+                      - generic [ref=e438]: Time
+                - generic [ref=e439]:
+                  - generic [ref=e440]: 需要确认
+                  - button "提交验证" [ref=e441] [cursor=pointer]
+                  - button "继续优化" [ref=e442] [cursor=pointer]
+                - generic [ref=e443]: 14:36
+          - generic [ref=e444]:
+            - generic [ref=e445]:
+              - button "附件" [ref=e446] [cursor=pointer]:
+                - img [ref=e447]
+              - button "常用指令" [ref=e449] [cursor=pointer]:
+                - img [ref=e450]
+            - textbox "输入消息给 TestGen..." [ref=e452]
+            - button "发送" [ref=e453] [cursor=pointer]:
+              - img [ref=e454]
+        - generic [ref=e456]:
+          - generic [ref=e457]:
+            - generic [ref=e458]: 规范指南
+            - button "返回规范指南" [ref=e459] [cursor=pointer]:
+              - img [ref=e460]
+          - generic [ref=e463]:
+            - generic [ref=e464]:
+              - generic [ref=e465]:
+                - img [ref=e467]
+                - generic [ref=e469]: BUG修复
+              - generic [ref=e470]: TestGen 了解此类任务的完整规范。你可以在对话中随时询问建议，也可以完全按自己的方式完成——甚至不需要在 LegionOS 里操作。
+            - generic [ref=e471]:
+              - generic [ref=e472]: 参考流程
+              - generic [ref=e473]:
+                - generic [ref=e474]:
+                  - generic [ref=e475]: "1"
+                  - generic [ref=e477]: 确认复现
+                - generic [ref=e478]:
+                  - generic [ref=e479]: "2"
+                  - generic [ref=e481]: 定位代码
+                - generic [ref=e482]:
+                  - generic [ref=e483]: "3"
+                  - generic [ref=e485]: 修复
+                - generic [ref=e486]:
+                  - generic [ref=e487]: "4"
+                  - generic [ref=e489]: 自测
+                - generic [ref=e490]:
+                  - generic [ref=e491]: "5"
+                  - generic [ref=e493]: 提交验证
+            - generic [ref=e494]:
+              - generic [ref=e495]: 数字员工技能
+              - generic [ref=e496]:
+                - generic [ref=e497]: 代码定位
+                - generic [ref=e498]: 自动修复
+                - generic [ref=e499]: 测试生成
+                - generic [ref=e500]: Diff 审查
+            - generic [ref=e501]:
+              - generic [ref=e502]: 人机分工原则
+              - generic [ref=e503]:
+                - generic [ref=e504]:
+                  - generic [ref=e505]:
+                    - generic [ref=e506]: 🤖
+                    - generic [ref=e507]: 数字员工负责
+                  - generic [ref=e508]:
+                    - text: • 分析堆栈、定位可疑代码、生成修复方案
+                    - text: • 运行复现脚本、收集错误日志
+                    - text: • 生成自测用例、运行测试套件
+                - generic [ref=e509]:
+                  - generic [ref=e510]:
+                    - generic [ref=e511]: 👤
+                    - generic [ref=e512]: 你负责
+                  - generic [ref=e513]:
+                    - text: • 确认修复方向、审查代码变更、决定提交
+                    - text: • 确认复现条件、补充环境信息
+                    - text: • 判断测试覆盖是否充分
+            - generic [ref=e515]: 💡 你可以完全不在 LegionOS 里操作——在外面把活干完了回来跟数字员工说一声就行。规范仅供参考，对话中数字员工会自然地给出建议。

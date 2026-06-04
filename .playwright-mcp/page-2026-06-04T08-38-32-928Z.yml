@@ -1,0 +1,253 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e261]:
+    - generic [ref=e262]: i
+    - generic [ref=e263]:
+      - generic [ref=e264]: 已进入工作台
+      - generic [ref=e265]: 当前流程：故障处理 · IncidentBot 已就绪
+    - img [ref=e267] [cursor=pointer]
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e270]:
+        - generic [ref=e271] [cursor=pointer]:
+          - img [ref=e273]
+          - generic [ref=e275]: LegionOS
+        - generic [ref=e276] [cursor=pointer]:
+          - img [ref=e277]
+          - generic [ref=e279]: 搜索...
+          - generic [ref=e280]: ⌘K
+      - generic [ref=e281]:
+        - generic [ref=e282]:
+          - generic [ref=e283]: 工作
+          - generic [ref=e284] [cursor=pointer]:
+            - img [ref=e286]
+            - generic [ref=e288]: 我的任务
+            - generic [ref=e289]: "5"
+          - generic [ref=e290] [cursor=pointer]:
+            - img [ref=e292]
+            - generic [ref=e294]: 数字员工协同
+            - generic [ref=e295]: "4"
+        - generic [ref=e296]:
+          - generic [ref=e297]: 资产
+          - generic [ref=e298] [cursor=pointer]:
+            - img [ref=e300]
+            - generic [ref=e302]: 技术资产
+          - generic [ref=e303] [cursor=pointer]:
+            - img [ref=e305]
+            - generic [ref=e307]: 知识体系
+      - generic [ref=e308]:
+        - generic [ref=e309]:
+          - generic [ref=e310] [cursor=pointer]:
+            - img [ref=e312]
+            - generic [ref=e314]: 消息
+            - generic [ref=e315]: "3"
+          - generic [ref=e316] [cursor=pointer]:
+            - img [ref=e318]
+            - generic [ref=e320]: 设置
+          - generic [ref=e321] [cursor=pointer]:
+            - img [ref=e323]
+            - generic [ref=e325]: 帮助
+        - generic [ref=e327] [cursor=pointer]:
+          - generic [ref=e328]: 张
+          - generic [ref=e329]:
+            - generic [ref=e330]: 张三
+            - generic [ref=e331]: AI工程师
+          - img [ref=e333]
+    - generic [ref=e335]:
+      - generic [ref=e336]:
+        - text: 生产故障 · 正在处理
+        - generic [ref=e338]: P0
+        - generic [ref=e339]: 已持续 47 分钟 · 影响 2,340 用户
+      - generic [ref=e340]:
+        - generic [ref=e341]:
+          - img [ref=e342]
+          - text: 故障处理
+        - generic [ref=e344]: "INC-0087: 数据库连接池耗尽"
+        - generic [ref=e345]: IncidentBot · 在线
+        - button "规范" [ref=e346] [cursor=pointer]:
+          - img [ref=e347]
+          - text: 规范
+        - button [ref=e349] [cursor=pointer]:
+          - img [ref=e350]
+      - generic [ref=e352]:
+        - generic [ref=e353]:
+          - generic [ref=e354]:
+            - generic [ref=e355]:
+              - generic [ref=e356]: IB
+              - generic [ref=e357]:
+                - generic [ref=e358]:
+                  - text: 🚨 P0 告警！支付接口超时率飙升至 15.3%
+                  - text: IncidentBot 已自动介入分析，正在对比最近变更...
+                - generic [ref=e359] [cursor=pointer]:
+                  - generic [ref=e360]:
+                    - generic [ref=e361]: ⚠
+                    - generic [ref=e362]: 核心指标告警
+                    - generic [ref=e363]: 查看实时监控 →
+                  - generic [ref=e364]:
+                    - generic [ref=e365]:
+                      - generic [ref=e366]: 15.3%
+                      - generic [ref=e367]: 超时率
+                    - generic [ref=e368]:
+                      - generic [ref=e369]: 92%
+                      - generic [ref=e370]: 连接池
+                    - generic [ref=e371]:
+                      - generic [ref=e372]: 2,340
+                      - generic [ref=e373]: 影响用户
+                - generic [ref=e374]: 09:42
+            - generic [ref=e375]:
+              - generic [ref=e376]: IB
+              - generic [ref=e377]:
+                - generic [ref=e378]:
+                  - text: 根因分析完成（87% 置信度）：
+                  - text: 2 小时前配置变更将 db.pool.max 从 100 降至 20，高并发时连接池耗尽。
+                - generic [ref=e379] [cursor=pointer]:
+                  - generic [ref=e380]:
+                    - generic [ref=e381]: 🔍
+                    - generic [ref=e382]: 变更对比 · application.yml
+                    - generic [ref=e383]: 查看变更记录 →
+                  - generic [ref=e384]:
+                    - text: "db:"
+                    - text: "pool:"
+                    - text: "max: 20 # 变更后 ← 问题根因"
+                    - text: "# 原 max: 100"
+                - generic [ref=e385]:
+                  - generic [ref=e386]: 建议操作
+                  - button "回滚配置 + 热重启" [ref=e387] [cursor=pointer]
+                  - button "先降级到备用通道" [ref=e388] [cursor=pointer]
+                - generic [ref=e389]: 09:43
+            - generic [ref=e390]:
+              - generic [ref=e391]: 张
+              - generic [ref=e392]:
+                - generic [ref=e393]: 执行回滚
+                - generic [ref=e394]: 09:48
+            - generic [ref=e395]:
+              - generic [ref=e396]: IB
+              - generic [ref=e397]:
+                - generic [ref=e398]: 配置已回滚！payment-service 滚动更新中...
+                - generic [ref=e399] [cursor=pointer]:
+                  - generic [ref=e400]:
+                    - generic [ref=e401]: 📡
+                    - generic [ref=e402]: 部署日志
+                    - generic [ref=e403]: 查看完整日志 →
+                  - generic [ref=e404]:
+                    - text: 09:50:01 Rolling update started
+                    - text: 09:50:15 Starting new instance
+                    - text: 09:50:22 Health check passed
+                    - text: 09:50:35 Traffic 100% → new
+                    - text: 09:50:36 Deployment complete ✓
+                - generic [ref=e405]: 09:50
+            - generic [ref=e406]:
+              - generic [ref=e407]: IB
+              - generic [ref=e408]:
+                - generic [ref=e409]: 所有指标已恢复正常！回归验证通过。
+                - generic [ref=e410] [cursor=pointer]:
+                  - generic [ref=e411]:
+                    - generic [ref=e412]: ✓
+                    - generic [ref=e413]: 回归验证
+                    - generic [ref=e414]: 查看详情 →
+                  - generic [ref=e415]:
+                    - generic [ref=e416]:
+                      - generic [ref=e417]: 0.3%
+                      - generic [ref=e418]: 超时率
+                    - generic [ref=e419]:
+                      - generic [ref=e420]: 45%
+                      - generic [ref=e421]: 连接池
+                    - generic [ref=e422]:
+                      - generic [ref=e423]: 95%
+                      - generic [ref=e424]: 缓存命中
+                - generic [ref=e425]:
+                  - generic [ref=e426]: 接下来可以
+                  - button "开始复盘" [ref=e427] [cursor=pointer]
+                  - button "继续监控 30min" [ref=e428] [cursor=pointer]
+                - generic [ref=e429]: 09:55
+            - generic [ref=e430]:
+              - generic [ref=e431]: IB
+              - generic [ref=e432]:
+                - generic [ref=e433]:
+                  - text: 复盘报告已生成。MTTD 47s, MTTR 3min，均在 SLO 范围内。
+                  - text: 建议改进措施：① 配置变更增加审批 ② 告警阈值调整
+                - generic [ref=e434] [cursor=pointer]:
+                  - generic [ref=e435]:
+                    - generic [ref=e436]: 📝
+                    - generic [ref=e437]: 故障指标
+                    - generic [ref=e438]: 查看复盘报告 →
+                  - generic [ref=e439]:
+                    - generic [ref=e440]: "MTTD: 47s (SLO < 5min) ✓"
+                    - generic [ref=e441]: "MTTR: 3min (SLO < 10min) ✓"
+                    - generic [ref=e442]: "影响用户: 2,340"
+                    - generic [ref=e443]: "业务损失: ¥12.4万"
+                - generic [ref=e444]: 10:00
+          - generic [ref=e445]:
+            - generic [ref=e446]:
+              - button "附件" [ref=e447] [cursor=pointer]:
+                - img [ref=e448]
+              - button "常用指令" [ref=e450] [cursor=pointer]:
+                - img [ref=e451]
+            - textbox "输入消息给 IncidentBot..." [ref=e453]
+            - button "发送" [ref=e454] [cursor=pointer]:
+              - img [ref=e455]
+        - generic:
+          - generic:
+            - generic: 规范指南
+            - button "关闭面板":
+              - img
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - img
+                  - generic: 故障处理
+                - generic: IncidentBot 了解此类任务的完整规范。你可以在对话中随时询问建议，也可以完全按自己的方式完成——甚至不需要在 LegionOS 里操作。
+              - generic:
+                - generic: 参考流程
+                - generic:
+                  - generic:
+                    - generic: "1"
+                    - generic:
+                      - generic: 止损降级
+                  - generic:
+                    - generic: "2"
+                    - generic:
+                      - generic: 根因定位
+                  - generic:
+                    - generic: "3"
+                    - generic:
+                      - generic: 热修复
+                  - generic:
+                    - generic: "4"
+                    - generic:
+                      - generic: 部署
+                  - generic:
+                    - generic: "5"
+                    - generic:
+                      - generic: 监控回归
+                  - generic:
+                    - generic: "6"
+                    - generic:
+                      - generic: 复盘
+              - generic:
+                - generic: 数字员工技能
+                - generic:
+                  - generic: 根因分析
+                  - generic: 指标监控
+                  - generic: 日志过滤
+                  - generic: 部署追踪
+              - generic:
+                - generic: 人机分工原则
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic: 🤖
+                      - generic: 数字员工负责
+                    - generic:
+                      - text: • 监控指标异常、分析根因、生成止损方案
+                      - text: • 追踪部署进度、验证回归结果
+                  - generic:
+                    - generic:
+                      - generic: 👤
+                      - generic: 你负责
+                    - generic:
+                      - text: • 决策降级策略、审批配置变更
+                      - text: • 确认恢复、审批复盘报告
+              - generic:
+                - generic: 💡 你可以完全不在 LegionOS 里操作——在外面把活干完了回来跟数字员工说一声就行。规范仅供参考，对话中数字员工会自然地给出建议。

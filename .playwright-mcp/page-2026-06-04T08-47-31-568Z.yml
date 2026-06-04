@@ -1,0 +1,215 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5] [cursor=pointer]:
+        - img [ref=e7]
+        - generic [ref=e9]: LegionOS
+      - generic [ref=e10] [cursor=pointer]:
+        - img [ref=e11]
+        - generic [ref=e13]: 搜索...
+        - generic [ref=e14]: ⌘K
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - generic [ref=e17]: 工作
+        - generic [ref=e18] [cursor=pointer]:
+          - img [ref=e20]
+          - generic [ref=e22]: 我的任务
+          - generic [ref=e23]: "5"
+        - generic [ref=e24] [cursor=pointer]:
+          - img [ref=e26]
+          - generic [ref=e28]: 数字员工协同
+          - generic [ref=e29]: "4"
+      - generic [ref=e30]:
+        - generic [ref=e31]: 资产
+        - generic [ref=e32] [cursor=pointer]:
+          - img [ref=e34]
+          - generic [ref=e36]: 技术资产
+        - generic [ref=e37] [cursor=pointer]:
+          - img [ref=e39]
+          - generic [ref=e41]: 知识体系
+    - generic [ref=e42]:
+      - generic [ref=e43]:
+        - generic [ref=e44] [cursor=pointer]:
+          - img [ref=e46]
+          - generic [ref=e48]: 消息
+          - generic [ref=e49]: "3"
+        - generic [ref=e50] [cursor=pointer]:
+          - img [ref=e52]
+          - generic [ref=e54]: 设置
+        - generic [ref=e55] [cursor=pointer]:
+          - img [ref=e57]
+          - generic [ref=e59]: 帮助
+      - generic [ref=e61] [cursor=pointer]:
+        - generic [ref=e62]: 张
+        - generic [ref=e63]:
+          - generic [ref=e64]: 张三
+          - generic [ref=e65]: AI工程师
+        - img [ref=e67]
+  - generic [ref=e70]:
+    - generic [ref=e71]:
+      - generic [ref=e72]:
+        - generic [ref=e73]: 我的任务
+        - generic [ref=e74]:
+          - generic [ref=e75]:
+            - generic [ref=e77]: "3"
+            - text: 紧急
+          - generic [ref=e78]:
+            - generic [ref=e80]: "4"
+            - text: 进行中
+          - generic [ref=e81]:
+            - generic [ref=e83]: "5"
+            - text: 已完成
+        - generic [ref=e84]:
+          - generic [ref=e85] [cursor=pointer]: 全部
+          - generic [ref=e86] [cursor=pointer]: BUG修复
+          - generic [ref=e88] [cursor=pointer]: 故障处理
+          - generic [ref=e90] [cursor=pointer]: 需求开发
+          - generic [ref=e92] [cursor=pointer]: 项目立项
+          - generic [ref=e94] [cursor=pointer]: 代码审查
+          - generic [ref=e96] [cursor=pointer]: 交付验收
+      - generic [ref=e98]:
+        - generic [ref=e99]:
+          - generic [ref=e100]:
+            - generic [ref=e101]: 待处理
+            - generic [ref=e102]: "4"
+          - generic [ref=e103] [cursor=pointer]:
+            - generic [ref=e105]:
+              - generic [ref=e106]: "BUG-2338: 导出报表数据错位"
+              - generic [ref=e107]:
+                - generic [ref=e108]: 平台升级项目
+                - generic [ref=e110]: ONES 工单
+            - generic [ref=e111]:
+              - generic [ref=e112]: P1
+              - generic [ref=e113]: 确认复现
+          - generic [ref=e114] [cursor=pointer]:
+            - generic [ref=e116]:
+              - generic [ref=e117]: "INC-0089: 线上支付接口超时率飙升至 15%"
+              - generic [ref=e118]:
+                - generic [ref=e119]: 支付平台
+                - generic [ref=e121]: 生产告警
+            - generic [ref=e122]:
+              - generic [ref=e123]: P0
+              - generic [ref=e124]: 止损降级
+          - generic [ref=e125] [cursor=pointer]:
+            - generic [ref=e127]:
+              - generic [ref=e128]: "PR #127: auth 模块重构"
+              - generic [ref=e129]:
+                - generic [ref=e130]: 平台升级项目
+                - generic [ref=e132]: PR 提交
+            - generic [ref=e133]:
+              - generic [ref=e134]: P2
+              - generic [ref=e135]: 浏览变更
+          - generic [ref=e136] [cursor=pointer]:
+            - generic [ref=e138]:
+              - generic [ref=e139]: 智能客服系统立项
+              - generic [ref=e140]:
+                - generic [ref=e141]: —
+                - generic [ref=e143]: 人工发起
+            - generic [ref=e144]:
+              - generic [ref=e145]: P1
+              - generic [ref=e146]: 填写立项书
+        - generic [ref=e147]:
+          - generic [ref=e148]:
+            - generic [ref=e149]: 进行中
+            - generic [ref=e150]: "4"
+          - generic [ref=e151] [cursor=pointer]:
+            - generic [ref=e153]:
+              - generic [ref=e154]: "BUG-2341: 用户登录后白屏"
+              - generic [ref=e155]:
+                - generic [ref=e156]: 平台升级项目
+                - generic [ref=e158]: ONES 工单
+            - generic [ref=e159]:
+              - generic [ref=e160]: P0
+              - generic [ref=e161]: 定位代码
+          - generic [ref=e162] [cursor=pointer]:
+            - generic [ref=e164]:
+              - generic [ref=e165]: "INC-0087: 数据库连接池耗尽"
+              - generic [ref=e166]:
+                - generic [ref=e167]: 数据中台
+                - generic [ref=e169]: 生产告警
+            - generic [ref=e170]:
+              - generic [ref=e171]: P0
+              - generic [ref=e172]: 热修复
+          - generic [ref=e173] [cursor=pointer]:
+            - generic [ref=e175]:
+              - generic [ref=e176]: "REQ-0056: 支持多维度经营分析图表"
+              - generic [ref=e177]:
+                - generic [ref=e178]: 平台升级项目
+                - generic [ref=e180]: 迭代计划
+            - generic [ref=e181]:
+              - generic [ref=e182]: P1
+              - generic [ref=e183]: 编码实现
+          - generic [ref=e184] [cursor=pointer]:
+            - generic [ref=e186]:
+              - generic [ref=e187]: 数据中台 v2.1 交付验收
+              - generic [ref=e188]:
+                - generic [ref=e189]: 数据中台
+                - generic [ref=e191]: 里程碑
+            - generic [ref=e192]:
+              - generic [ref=e193]: P1
+              - generic [ref=e194]: 效果评估
+    - generic [ref=e195]:
+      - generic [ref=e196]:
+        - generic [ref=e197]:
+          - generic [ref=e198]:
+            - generic [ref=e199]:
+              - generic [ref=e200]: 当前最值得推进
+              - generic [ref=e201]: 检查热修复状态
+            - generic [ref=e202]:
+              - generic [ref=e203]: 故障处理
+              - generic [ref=e204]: P0
+              - generic [ref=e205]: 5 分钟
+          - generic [ref=e206]:
+            - generic [ref=e207]: 建议下一步
+            - generic [ref=e208]: 查看当前热修复部署日志，并确认连接池指标是否回落。
+          - generic [ref=e209]:
+            - generic [ref=e210]:
+              - generic [ref=e211]: 为什么现在
+              - generic [ref=e212]: 故障已进入热修复阶段，需要确认部署和回归监控是否闭环。
+            - generic [ref=e213]:
+              - generic [ref=e214]: 主要风险
+              - generic [ref=e215]: 修复未完全生效时，连接池可能再次打满。
+            - generic [ref=e216]:
+              - generic [ref=e217]: AI 可代做
+              - generic [ref=e218]: 追踪部署、观察指标、生成复盘草稿
+        - generic [ref=e219]:
+          - generic [ref=e220]: "INC-0087: 数据库连接池耗尽"
+          - generic [ref=e221]:
+            - generic [ref=e222]: 数据中台
+            - generic [ref=e223]: 生产告警
+            - generic [ref=e224]: 张三
+            - generic [ref=e225]: 1小时前
+        - generic [ref=e226]:
+          - generic [ref=e227]: 流程进度 · 第 3/6 步 · 40%
+          - generic [ref=e228]:
+            - generic [ref=e229]:
+              - generic [ref=e230]: ✓
+              - generic [ref=e231]: 止损降级
+            - generic [ref=e232]:
+              - generic [ref=e233]: ✓
+              - generic [ref=e234]: 根因定位
+            - generic [ref=e235]:
+              - generic [ref=e236]: "3"
+              - generic [ref=e237]: 热修复
+            - generic [ref=e238]:
+              - generic [ref=e239]: "4"
+              - generic [ref=e240]: 部署
+            - generic [ref=e241]:
+              - generic [ref=e242]: "5"
+              - generic [ref=e243]: 监控回归
+            - generic [ref=e244]:
+              - generic [ref=e245]: "6"
+              - generic [ref=e246]: 复盘
+        - generic [ref=e247]:
+          - generic [ref=e249]: 🚨
+          - generic [ref=e250]:
+            - generic [ref=e251]: IncidentBot
+            - generic [ref=e252]: 实时监控异常、根因分析、部署追踪
+            - generic [ref=e253]: 在线就绪
+      - generic [ref=e254]:
+        - button "检查热修复状态" [ref=e255] [cursor=pointer]:
+          - img [ref=e256]
+          - text: 检查热修复状态
+        - button "让 AI 继续监控" [ref=e258] [cursor=pointer]:
+          - img [ref=e259]
+          - text: 让 AI 继续监控
